@@ -14,6 +14,7 @@
             <img src="{{ asset('images.jpg') }}" alt="Logo" class="w-12" >
         </div>
         <div>
+
             <a href="{{ route('home') }}" class="p-2 hover:text-blue-500">Home</a>
             <a href="{{ route('about') }}" class="p-2 hover:text-blue-500">About</a>
             <a href="{{ route('contact') }}" class="p-2 hover:text-blue-500">Contact</a>
