@@ -16,15 +16,16 @@
         <div>
 
             <a href="{{ route('home') }}" class="p-2 hover:text-blue-500">Home</a>
-            <a href="{{ route('about') }}" class="p-2 hover:text-blue-500">About</a>
-            <a href="{{ route('contact') }}" class="p-2 hover:text-blue-500">Contact</a>
+            @php
+            $categories=App\Models\Category::orderBy('priority')->get();
+            @endphp
+            @foreach($categories as $category)
+            <a href="{{route('categoryproduct',$category->id)}}" class="p-2">{{$category->name}}</a>
+            @endforeach
             <a href="/login" class="p-2 hover:text-blue-500">Login</a>
         </div>
     </nav>
-
-    <div class="container mx-auto py-10">
         @yield('content')
-    </div>
 
     <footer class="bg-lime-200">
         <div class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 px-10 py-10">
