@@ -10,7 +10,8 @@
     <p class="text-gray-500">{{$product->description}}</p>
     <div class="flex justify-between items-center mt-4">
         <h1 class="text-xl font-bold">{{$product->price}}</h1>
-        <button class="bg-gradient-to-r from-red-800 via-yellow-500 to-blue-500  text-white px-3 py-1.5 rounded-lg">Add to Cart</button>
+        <a href="{{route('viewproduct',$product->id)}}" class="bg-gradient-to-r from-red-600 via-yellow-400 to-gray-600 text-white px-3 py-1.5 rounded-lg">View Product</a>
+        </div>
     </div>
 </div>
 @endforeach

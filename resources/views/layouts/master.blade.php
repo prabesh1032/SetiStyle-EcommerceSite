@@ -8,8 +8,8 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-gray-100 text-gray-800">
-    <nav class="flex justify-between items-center px-20 py-5 bg-white shadow-md sticky top-0 z-10">
+<body class="bg-cyan-100 text-gray-800">
+    <nav class="flex justify-between items-center px-20 py-5 bg-cyan-300 shadow-md sticky top-0 z-10">
         <div>
             <img src="{{ asset('images.jpg') }}" alt="Logo" class="w-12" >
         </div>

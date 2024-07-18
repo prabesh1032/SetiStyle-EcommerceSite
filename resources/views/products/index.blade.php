@@ -33,7 +33,7 @@
             <td class="border p-2">
                 <img src="{{ asset('images/' . $product->photopath) }}" alt="" class="h-20">
             </td>
-            <td class="border p-2">
+            <td class="border p-2"> 
                 <a href="{{route('products.edit',$product->id)}}
                 "class="bg-indigo-700 text-whitr px-3 py-1.5 rounded-lg">Edit</a>
                 <a href="{{route('products.destroy',$product->id)}}"
