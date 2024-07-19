@@ -21,8 +21,28 @@
             <p>7 days return policy</p>
         </div>
     </div>
+    <div class="px-20 mb-12">
+    <h1 class="text-2xl font-bold">Description</h1>
+    <p class="text-gray-500 mt-4">{{$product->description}}
+    </div>
+    <div class="my-10 px-16">
+        <h1 class="text-2xl font-bold">Related Product</h1>
+        <div class="grid grid-cols-4 gap-10 mt-6">
+            @foreach($relatedproducts as $relatedproduct)
+            <div class="border-shadaw-md rounded-lg p-2">
+                <a href="({{route('viewproduct',$relatedproduct->id)}}">
+                    <img src="{{asset('images/'.$relatedproduct->photopath)}}" alt=""
+                    class="h-60 w-full object-cover">
+                    <h1 class="text-lg font-bold mt-2">{{$relatedproduct->name}}</h1>
+                    <p class="text-gray-500">Rs,{{$relatedproduct->price}}</p>
+                </a>
+            </div>
+            @endforeach
+         </div>
 
+    </div>
     <script>
+
         function increaseqty()
         {
             var quantity = document.getElementById('quantity').value;
