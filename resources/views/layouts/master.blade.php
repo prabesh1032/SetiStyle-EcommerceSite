@@ -9,6 +9,7 @@
 </head>
 
 <body class="bg-cyan-100 text-gray-800">
+    @include('Layouts.alert')
     <nav class="flex justify-between items-center px-20 py-5 bg-cyan-300 shadow-md sticky top-0 z-10">
         <div>
             <img src="{{ asset('images.jpg') }}" alt="Logo" class="w-12" >

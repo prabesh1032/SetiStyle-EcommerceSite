@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PagesController;
@@ -13,6 +14,12 @@ Route::get('/about',[PagesController::class, 'about'])->name('about');
 Route::get('/contact',[PagesController::class, 'contact'])->name('contact');
 Route::get('/categoryproduct/{id}',[PagesController::class,'categoryproduct'])->name('categoryproduct');
 Route::get('/viewproduct/{id}',[PagesController::class,'viewproduct'])->name('viewproduct');
+
+Route::middleware('auth')->group(function(){
+    Route::post('cart/store',[CartController::class,'store'])->name('cart.store');
+
+});
+
 Route::get('/dashboard', [DashboardController::class,'dashboard'])->middleware(['auth',
 'verified'])->name('dashboard');
 

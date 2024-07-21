@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId(('user_id'))->constraint();
             $table->foreignId(('product_id'))->constraint();
-            $table->intrger('quantity');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }
