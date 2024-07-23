@@ -17,6 +17,10 @@ Route::get('/viewproduct/{id}',[PagesController::class,'viewproduct'])->name('vi
 
 Route::middleware('auth')->group(function(){
     Route::post('cart/store',[CartController::class,'store'])->name('cart.store');
+    Route::get('mycart',[CartController::class,'mycart'])->name('mycarts');
+    Route::delete('cart/destroy',[CartController::class, 'destroy'])->name('cart.destroy');
+
+    Route::get('checkout/{id}',[CartController::class,'checkout'])->name('checkout');
 
 });
 

@@ -2,6 +2,9 @@
 <html lang="en">
 
 <head>
+<link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+    rel="stylesheet"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title') - My Website</title>
@@ -10,6 +13,23 @@
 
 <body class="bg-cyan-100 text-gray-800">
     @include('Layouts.alert')
+    <div class= "flex justify-between px-20 bg-green-500 text-white py-2">
+        <div>
+            <a href=""><i class="ri-phone-fill"></i>9812965119</a>
+        </div>
+        <div>
+        @auth
+            <a href="">HI,{{auth()->user()->name}}</a>
+            <a href="{{route('mycarts')}}"class="p-2">My Cart</a>
+            <form action="{{route('logout')}}" method="post" class="inline">
+                @csrf
+                <button type="submit" class="p-2">logout</button>
+            </form>
+            @else
+            <a href="/login" class="p-2 hover:text-blue-500">Login</a>
+            @endauth
+        </div>
+    </div>
     <nav class="flex justify-between items-center px-20 py-5 bg-cyan-300 shadow-md sticky top-0 z-10">
         <div>
             <img src="{{ asset('images.jpg') }}" alt="Logo" class="w-12" >
@@ -23,15 +43,7 @@
             @foreach($categories as $category)
             <a href="{{route('categoryproduct',$category->id)}}" class="p-2">{{$category->name}}</a>
             @endforeach
-            @auth
-            <a href="">HI,{{auth()->user()->name}}</a>
-            <form action="{{route('logout')}}" method="post" class="inline">
-                @csrf
-                <button type="submit" class="p-2">logout</button>
-            </form>
-            @else
-            <a href="/login" class="p-2 hover:text-blue-500">Login</a>
-            @endauth
+
         </div>
     </nav>
         @yield('content')
