@@ -4,9 +4,11 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Order;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/',[PagesController::class, 'home'])->name('home');
@@ -21,6 +23,9 @@ Route::middleware('auth')->group(function(){
     Route::delete('cart/destroy',[CartController::class, 'destroy'])->name('cart.destroy');
 
     Route::get('checkout/{id}',[CartController::class,'checkout'])->name('checkout');
+    Route::post('order/store',[OrderController::class,'store'])->name('order.store');
+
+
 
 });
 
@@ -51,6 +56,9 @@ Route::post('/products/store', [ProductController:: class, 'store'])->name('prod
 Route::get('/products/{id}/edit', [ProductController:: class, 'edit'])->name('products.edit');
 Route::post('/products/{id}/update', [ProductController:: class, 'update'])->name('products.update');
 Route::get('/products/{id}/destroy', [ProductController:: class, 'destroy'])->name('products.destroy');
+
+//orders
+Route::get('/orders',[OrderController::class,'index'])->name('order.index');
 });
 
 Route::middleware('auth')->group(function () {
