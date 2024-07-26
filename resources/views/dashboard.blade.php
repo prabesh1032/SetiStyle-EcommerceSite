@@ -26,22 +26,22 @@
     <div class="px-5 py-8 bg-blue-500 text-white flex justify-between items-center rounded-lg
     hover:shadow-lg transform hover:scale-105 transition duration-300">
         <h2 class="text-2xl font-bold">Total Orders</h2>
-        <p class="text-3xl font-bold">100</p>
+        <p class="text-3xl font-bold"> {{$totalorders}}</p>
     </div>
     <div class="px-5 py-8 bg-orange-500 text-white flex justify-between items-center rounded-lg
     hover:shadow-lg transform hover:scale-105 transition duration-300">
-        <h2 class="text-2xl font-bold">Total Sales</h2>
-        <p class="text-3xl font-bold">100</p>
+        <h2 class="text-2xl font-bold">Pending Order</h2>
+        <p class="text-3xl font-bold">{{$pendingorders}}</p>
     </div>
     <div class="px-5 py-8 bg-green-500 text-white flex justify-between items-center rounded-lg
     hover:shadow-lg transform hover:scale-105 transition duration-300">
-        <h2 class="text-2xl font-bold">Total visit</h2>
-        <p class="text-3xl font-bold">100</p>
+        <h2 class="text-2xl font-bold">Processing Order</h2>
+        <p class="text-3xl font-bold">{{$processingorders}}</p>
     </div>
     <div class="px-5 py-8 bg-pink-500 text-white flex justify-between items-center rounded-lg
     hover:shadow-lg transform hover:scale-105 transition duration-300">
-        <h2 class="text-2xl font-bold">Total Users</h2>
-        <p class="text-3xl font-bold">100</p>
+        <h2 class="text-2xl font-bold">Total Deliver</h2>
+        <p class="text-3xl font-bold">{{$deliverorders}}</p>
     </div>
     <div class="px-5 py-8 bg-green-500 text-white flex justify-between items-center rounded-lg
     hover:shadow-lg transform hover:scale-105 transition duration-300">

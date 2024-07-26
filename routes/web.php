@@ -30,9 +30,9 @@ Route::middleware('auth')->group(function(){
 });
 
 Route::get('/dashboard', [DashboardController::class,'dashboard'])->middleware(['auth',
-'verified'])->name('dashboard');
+'isadmin'])->name('dashboard');
 
-Route::middleware('auth')->group(function(){
+Route::middleware(['auth','isadmin'])->group(function(){
 
 Route::get('/categorie', [CategoryController:: class, 'index'])->name('categories.index');
 Route::get('/categorie/create', [CategoryController:: class, 'create'])->name('categories.create');
@@ -58,7 +58,9 @@ Route::post('/products/{id}/update', [ProductController:: class, 'update'])->nam
 Route::get('/products/{id}/destroy', [ProductController:: class, 'destroy'])->name('products.destroy');
 
 //orders
-Route::get('/orders',[OrderController::class,'index'])->name('order.index');
+Route::get('/orders',[OrderController::class,'index'])->name('orders.index');
+Route::get('/orders/{id}/status/{ststus}',[OrderController::class,'status'])->name('orders.status');
+
 });
 
 Route::middleware('auth')->group(function () {

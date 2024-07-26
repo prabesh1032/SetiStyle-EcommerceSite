@@ -32,7 +32,7 @@
                     hover:bg-yellow-300">Product</a>
                     <a href="{{route('brand.index')}}" class="block p-3 text-gray-700
                     hover:bg-yellow-300">Brand</a>
-                    <a href="" class="block p-3 text-gray-700
+                    <a href="{{route('orders.index')}}" class="block p-3 text-gray-700
                     hover:bg-yellow-300">Orders</a>
                     <a href="" class="block p-3 text-gray-700
                     hover:bg-yellow-300">Users</a>

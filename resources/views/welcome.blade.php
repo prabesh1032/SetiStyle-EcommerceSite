@@ -18,7 +18,6 @@
     </div>
     @endforelse
 </div>
-
 <div>
     <img src="" alt="This Is Home Page" class="h-88 w-full">
 </div>

@@ -27,6 +27,9 @@
                     @error('password')
                     <p class="text-red-500">{{$message}}</p>
                     @enderror
+                    <p class="my-5 text-right text-blue-500">
+                    <a href="{{route('password.request')}}">Forgot Password ?</a>
+                    </p>
                     <button type="submit" class=" bg-blue-500 text-white p-3 w-full rounded-lg">
                         Login
                     </button>
