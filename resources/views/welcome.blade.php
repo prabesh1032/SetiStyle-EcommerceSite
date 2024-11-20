@@ -1,7 +1,8 @@
 @extends('layouts.master')
 @section('content')
 <h1 class="text-blue-800 text-4xl text-center font-bold mt-10">Our Products</h1>
-<div class="grid grid-cols-4 gap-10 px-20 py-12">
+<div class="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-10 md:px-20 sm:px-10 px-5 py-12">
+
     @forelse($products as $product)
     <div class="rounded-lg shadow-md p-4 bg-white">
         <img src="{{ asset('images/' . $product->photopath) }}" alt="{{ $product->name }}" class="h-44 w-full object-cover rounded-t-lg">
