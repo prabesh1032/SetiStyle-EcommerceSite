@@ -9,7 +9,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 px-5 md:px-20 py-10">
 
             <!-- Product Information -->
-            <div class="col-span-1 lg:col-span-1 flex flex-col bg-white p-6 rounded-lg shadow-lg">
+            <div class="col-span-1 g:col-span-1 flex flex-col bg-white p-6 rounded-lg shadow-lg">
                 <img src="{{ asset('images/'.$cart->product->photopath) }}" alt="Product Image" class="w-full h-48 object-cover rounded-lg mb-5">
 
                 <div>
@@ -71,7 +71,6 @@
         <input type="hidden" id="failure_url" name="failure_url" value="{{ route('mycarts') }}" required>
         <input type="hidden" id="signed_field_names" name="signed_field_names" value="total_amount,transaction_uuid,product_code" required>
         <input type="hidden" id="signature" name="signature" value="" required>
-
         <!-- Payment Button -->
         <input value="Pay with eSewa" type="submit" class="bg-green-500 text-white w-full p-4 rounded-lg cursor-pointer mt-5 hover:bg-green-600 transition duration-300 ease-in-out">
     </form>

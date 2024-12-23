@@ -21,7 +21,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($orders as $order )
+        @foreach ($orders as $order )
             <tr class="bg-gray-50 hover:bg-gray-100">
                 <td class="border p-2 text-center">{{ $order->created_at }}</td>
                 <td class="border p-2 text-center">
@@ -47,5 +47,5 @@
             @endforeach
         </tbody>
     </table>
-</div>
+</div><
 @endsection
