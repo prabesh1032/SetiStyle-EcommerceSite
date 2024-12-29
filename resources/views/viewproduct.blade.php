@@ -31,7 +31,7 @@
                     <label for="quantity" class="block text-gray-700 font-semibold mb-2">Quantity:</label>
                     <div class="flex items-center mb-4">
                         <button type="button" class="py-2 px-4 bg-blue-600 text-white text-xl cursor-pointer rounded-l-lg" onclick="decreaseqty()">-</button>
-                        <input type="number" id="quantity" name="quantity" class="w-16 text-center border border-gray-300 rounded-none focus:outline-none"
+                        <input type="number" id="quantity"  name="quantity" class="w-16 text-center border border-gray-300 rounded-none focus:outline-none"
                             min="1" max="{{ $product->stock }}" value="1">
                         <button type="button" class="py-2 px-4 bg-blue-600 text-white text-xl cursor-pointer rounded-r-lg" onclick="increaseqty()">+</button>
                     </div>

@@ -1,51 +1,60 @@
 @extends('layouts.app')
+
 @section('title') Orders @endsection
+
 @section('content')
 <div class="container mx-auto mt-10">
-    <h1 class="text-3xl font-bold text-center mb-10">Orders</h1>
-    <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-        <thead>
-            <tr>
-                <th class="border p-2 bg-green-700 text-white">Order Time</th>
-                <th class="border p-2 bg-green-700 text-white">Product Image</th>
-                <th class="border p-2 bg-green-700 text-white">Product Name</th>
-                <th class="border p-2 bg-green-700 text-white">Customer Name</th>
-                <th class="border p-2 bg-green-700 text-white">Phone</th>
-                <th class="border p-2 bg-green-700 text-white">Address</th>
-                <th class="border p-2 bg-green-700 text-white">Quantity</th>
-                <th class="border p-2 bg-green-700 text-white">Price</th>
-                <th class="border p-2 bg-green-700 text-white">Total</th>
-                <th class="border p-2 bg-green-700 text-white">Payment Method</th>
-                <th class="border p-2 bg-green-700 text-white">Status</th>
-                <th class="border p-2 bg-green-700 text-white">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach ($orders as $order )
-            <tr class="bg-gray-50 hover:bg-gray-100">
-                <td class="border p-2 text-center">{{ $order->created_at }}</td>
-                <td class="border p-2 text-center">
-                    <img src="{{ asset('images/' . $order->product->photopath) }}" alt="Product Image" class="h-28 mx-auto rounded-lg">
-                </td>
-                <td class="border p-2 text-center">{{ $order->product->name }}</td>
-                <td class="border p-2 text-center">{{ $order->name }}</td>
-                <td class="border p-2 text-center">{{ $order->phone }}</td>
-                <td class="border p-2 text-center">{{ $order->address }}</td>
-                <td class="border p-2 text-center">{{ $order->quantity }}</td>
-                <td class="border p-2 text-center">{{ number_format($order->price, 2) }}</td>
-                <td class="border p-2 text-center">{{ number_format($order->quantity * $order->price, 2) }}</td>
-                <td class="border p-2 text-center">{{ $order->payment_method }}</td>
-                <td class="border p-2 text-center">{{ $order->status }}</td>
-                <td class="border p-2 text-center">
-                    <div class="grid gap-2">
-                        <a href="{{ route('orders.status', [$order->id, 'Pending']) }}" class="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700">Pending</a>
-                        <a href="{{ route('orders.status', [$order->id, 'Processing']) }}" class="bg-green-600 text-white p-2 rounded-lg hover:bg-green-700">Processing</a>
-                        <a href="{{ route('orders.status', [$order->id, 'Delivered']) }}" class="bg-orange-600 text-white p-2 rounded-lg hover:bg-orange-700">Delivered</a>
-                    </div>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div><
+    <!-- Title Section -->
+    <div class="text-center mb-10">
+        <h1 class="text-5xl font-extrabold text-gray-800">Your <span class="text-indigo-500">Orders</span></h1>
+        <p class="text-lg text-gray-600 mt-2">Manage and track your orders with ease.</p>
+    </div>
+
+    <!-- Responsive Grid for Orders -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-10">
+        @foreach ($orders as $order)
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300 transform hover:scale-105">
+            <!-- Image Section -->
+            <div class="relative">
+                <img src="{{ asset('images/' . $order->product->photopath) }}" alt="{{ $order->product->name }}" class="h-48 w-full object-cover">
+                <div class="absolute top-4 right-4 bg-yellow-500 text-white text-xs font-semibold py-1 px-3 rounded-full shadow-lg">
+                    {{ $order->payment_method }}
+                </div>
+            </div>
+
+            <!-- Details Section -->
+            <div class="p-1">
+                <h2 class="text-xl font-bold text-gray-900 truncate">{{ $order->product->name }}</h2>
+                <p class="text-sm text-gray-900 mt-2"><i class="ri-user-line"></i> <strong>Customer:</strong> {{ $order->name }}</p>
+                <p class="text-sm text-gray-600"><i class="ri-map-pin-line"></i> <strong>Address:</strong> {{ $order->address }}</p>
+                <p class="text-sm text-gray-600"><i class="ri-phone-line"></i> <strong>Phone:</strong> {{ $order->phone }}</p>
+                <p class="text-sm text-gray-600"><i class="ri-group-line"></i> <strong>Quantity:</strong> {{ $order->quantity }}</p>
+                <p class="text-sm text-gray-600"><i class="ri-wallet-line"></i> <strong>Total Price:</strong>
+                    <span class="text-green-600 font-bold">${{ number_format($order->quantity * $order->price, 2) }}</span>
+                </p>
+                <p class="text-sm text-gray-600"><i class="ri-calendar-line"></i> <strong>Date:</strong> {{ $order->created_at->format('d M Y') }}</p>
+                <p class="text-sm text-gray-600"><i class="ri-check-line text-indigo-500 mr-2"></i>Status: {{ $order->status }}</p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex justify-around items-center p-4 bg-gray-100">
+                <a href="{{ route('orders.status', [$order->id, 'Pending']) }}" class="bg-blue-500 text-white text-sm py-2 px-4 rounded-lg shadow hover:bg-blue-600">
+                    <i class="ri-time-line"></i> Pending
+                </a>
+                <a href="{{ route('orders.status', [$order->id, 'Processing']) }}" class="bg-green-500 text-white text-sm py-2 px-4 rounded-lg shadow hover:bg-green-600">
+                    <i class="ri-refresh-line"></i> Processing
+                </a>
+                <a href="{{ route('orders.status', [$order->id, 'Delivered']) }}" class="bg-orange-500 text-white text-sm py-2 px-4 rounded-lg shadow hover:bg-orange-600">
+                    <i class="ri-checkbox-circle-line"></i> Delivered
+                </a>
+            </div>
+        </div>
+        @endforeach
+    </div>
+
+    <!-- Pagination -->
+     <div class="mt-12">
+        {{ $orders->links('pagination::tailwind') }}
+    </div>
+</div>
 @endsection

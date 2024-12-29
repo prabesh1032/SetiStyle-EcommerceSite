@@ -28,8 +28,8 @@ class OrderController extends Controller
     }
     public function index()
     {
-        $orders=Order::all();
-        return view('orders.index',compact('orders'));
+        $orders = Order::paginate(10);
+        return view('orders.index', compact('orders'));
 
     }
     public function status($id,$status)
@@ -48,36 +48,54 @@ class OrderController extends Controller
         });
         return back()->with('success', 'Order is now '.$status);
     }
-    public function storeEsewa(Request $request ,$cartid)
+    public function storeEsewa(Request $request, $cartid)
     {
-        $data=$request->data;
-        $data=base64_decode($data);
-        $data=json_decode($data);
-        $status=$data->status;
-        if($status==="COMPLETE")
-        {
-            $cart = Cart::find($cartid);
-        $order = new Order();
-        $order->product_id = $cart->product_id;
-        $order->price = $cart->product->price;
-        $order->quantity = $cart->quantity;
-        $order->payment_method = "eSewa";
-        $order->name = $cart->user->name;
-        $order->phone = 'N/A';
-        $order->address = 'N/A';
-        $order->user_id = auth()->user()->id;
-        $order->status = "Pending";
-        $order->save();
-        $cart->delete();
-        Mail::send('emails.orderemail',$emaildata,function($message)
-        use($order){
-            $message->to($order->user->email,$order->user->name)->subject
-        ('Order Notification') ;
-        });
-        return back()->with('success', 'Order is now '.$status);
-        return redirect('/')->with('success','Order has been placed successfully');
+        // Decode and parse the response from eSewa
+        $data = $request->data;
+        $data = base64_decode($data);
+        $data = json_decode($data);
 
+        $status = $data->status;
+
+        if ($status === "COMPLETE") {
+            // Find the cart and create the order
+            $cart = Cart::find($cartid);
+            $order = new Order();
+            $order->product_id = $cart->product_id;
+            $order->price = $cart->product->price;
+            $order->quantity = $cart->quantity;
+            $order->payment_method = "eSewa";
+            $order->name = $cart->user->name;
+            $order->phone = 'N/A';  // You can get the phone number if needed
+            $order->address = 'N/A';  // You can get the address if needed
+            $order->user_id = auth()->user()->id;
+            $order->status = "Pending";
+            $order->save();
+
+            // Delete the cart item
+            $cart->delete();
+
+            // Prepare email data (make sure to define this)
+            $emaildata = [
+                'name' => $order->user->name,
+                'product_name' => $order->product->name,
+                'quantity' => $order->quantity,
+                'price' => $order->price,
+                'total' => $order->price * $order->quantity,
+            ];
+
+            // Send the order notification email
+            Mail::send('emails.orderemail', $emaildata, function($message) use($order) {
+                $message->to($order->user->email, $order->user->name)
+                        ->subject('Order Notification');
+            });
+
+            // Redirect or return a response
+            return redirect('/')->with('success', 'Order has been placed successfully');
         }
 
+        // In case the status is not COMPLETE, you can handle failure here
+        return back()->with('error', 'Payment was not successful.');
     }
+
 }

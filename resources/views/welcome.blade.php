@@ -3,7 +3,7 @@
 @section('content')
 
 <!-- Hero Section with Image and Title -->
-<header class="relative h-screen w-full bg-cover bg-center" style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('{{ asset('e-commerce.png') }}'); background-size: fixed;">
+<header class="relative h-screen w-full bg-cover bg-center" style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('{{ asset('chillshop.png') }}'); background-attachment: fixed;will-change: transform;">
     <div class="relative container mx-auto h-full flex flex-col justify-center items-center text-center">
         <h1 class="text-5xl md:text-6xl font-extrabold text-white mb-4 animate-bounce">
             Welcome to <span class="text-cyan-400 ">ChillShop</span>
@@ -85,7 +85,7 @@
                         @case('Menswear')
                             <i class="ri-shirt-line text-5xl text-blue-600 mb-4"></i>
                             @break
-                        @case('Womenwear')
+                        @case('Womenswear')
                             <i class="ri-t-shirt-line text-5xl text-blue-600 mb-4"></i>
                             @break
                         @case('Accessories')

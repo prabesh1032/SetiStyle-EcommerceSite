@@ -53,9 +53,9 @@
 </div>
 <!-- Empty Cart Message -->
 @if($carts->isEmpty())
-    <div class="text-center mt-8">
-        <p class="text-xl font-semibold text-gray-700">Your cart is empty. Start shopping now!</p>
-        <a href="{{ route('shop.index') }}" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-400">
+    <div class="text-center mt-8 pb-12">
+        <p class="text-xl font-semibold px-5 text-gray-700">Your cart is empty. Start shopping now!</p><br>
+        <a href="{{ route('home') }}" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-400">
             Browse Products
         </a>
     </div>

@@ -4,12 +4,12 @@
     <h2 class="text-4xl font-bold text-gray-800 text-center py-10">Checkout</h2>
 
     <!-- Checkout Form -->
-    <form action="{{ route('order.store') }}" method="post">
+    <form action="{{ route('order.store') }}" method="post" id="COD">
         @csrf
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 px-5 md:px-20 py-10">
 
             <!-- Product Information -->
-            <div class="col-span-1 g:col-span-1 flex flex-col bg-white p-6 rounded-lg shadow-lg">
+            <div class="col-span-1 lg:col-span-1 flex flex-col bg-white p-6 rounded-lg shadow-lg">
                 <img src="{{ asset('images/'.$cart->product->photopath) }}" alt="Product Image" class="w-full h-48 object-cover rounded-lg mb-5">
 
                 <div>
@@ -48,31 +48,38 @@
                     <h2 class="text-xl font-semibold text-gray-800">Total: ${{ number_format($cart->product->price * $cart->quantity, 2) }}</h2>
                 </div>
 
-                <select name="payment_method" class="w-full border rounded-lg p-4 mb-5 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="COD">Cash On Delivery</option>
+                <select name="payment_method" id="payment_method" class="w-full border rounded-lg p-4 mb-5 shadow-sm bg-gray-100 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="COD" class="text-gray-700">Cash On Delivery</option>
+                    <option value="esewa" class="text-gray-700">eSewa</option>
                 </select>
 
-                <!-- Checkout Button -->
-                <button type="submit" class="bg-blue-500 text-white w-full p-4 rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out">Checkout</button>
+                <!-- Order Now Button -->
+                <button type="button" id="submitButton" class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white w-full p-4 rounded-lg hover:from-indigo-600 hover:to-blue-500 shadow-lg transition duration-300 ease-in-out">
+                    Order Now
+                </button>
             </div>
         </div>
-    </form>
 
-    <!-- eSewa Payment Form -->
-    <form action="https://rc-epay.esewa.com.np/api/epay/main/v2/form" method="POST" class="mt-10">
-        <input type="hidden" id="amount" name="amount" value="100" required>
-        <input type="hidden" id="tax_amount" name="tax_amount" value="0" required>
-        <input type="hidden" id="total_amount" name="total_amount" value="110" required>
-        <input type="hidden" id="transaction_uuid" name="transaction_uuid" value="241028" required>
-        <input type="hidden" id="product_code" name="product_code" value="EPAYTEST" required>
-        <input type="hidden" id="product_service_charge" name="product_service_charge" value="0" required>
-        <input type="hidden" id="product_delivery_charge" name="product_delivery_charge" value="0" required>
-        <input type="hidden" id="success_url" name="success_url" value="{{ route('order.storeEsewa', $cart->id) }}" required>
-        <input type="hidden" id="failure_url" name="failure_url" value="{{ route('mycarts') }}" required>
-        <input type="hidden" id="signed_field_names" name="signed_field_names" value="total_amount,transaction_uuid,product_code" required>
-        <input type="hidden" id="signature" name="signature" value="" required>
-        <!-- Payment Button -->
-        <input value="Pay with eSewa" type="submit" class="bg-green-500 text-white w-full p-4 rounded-lg cursor-pointer mt-5 hover:bg-green-600 transition duration-300 ease-in-out">
+        <!-- eSewa Payment Form (Hidden initially) -->
+        <div class="hidden mt-10">
+            <form action="https://rc-epay.esewa.com.np/api/epay/main/v2/form" method="POST" id="esewa">
+                <input type="hidden" id="amount" name="amount" value="100" required>
+                <input type="hidden" id="tax_amount" name="tax_amount" value="0" required>
+                <input type="hidden" id="total_amount" name="total_amount" value="110" required>
+                <input type="hidden" id="transaction_uuid" name="transaction_uuid" value="241028" required>
+                <input type="hidden" id="product_code" name="product_code" value="EPAYTEST" required>
+                <input type="hidden" id="product_service_charge" name="product_service_charge" value="0" required>
+                <input type="hidden" id="product_delivery_charge" name="product_delivery_charge" value="0" required>
+                <input type="hidden" id="success_url" name="success_url" value="{{ route('order.storeEsewa', $cart->id) }}" required>
+                <input type="hidden" id="failure_url" name="failure_url" value="{{ route('mycarts') }}" required>
+                <input type="hidden" id="signed_field_names" name="signed_field_names" value="total_amount,transaction_uuid,product_code" required>
+                <input type="hidden" id="signature" name="signature" value="" required>
+
+                <!-- eSewa Payment Button -->
+                <input value="Pay with eSewa" type="submit" class="bg-green-500 text-white w-full p-4 rounded-lg cursor-pointer mt-5 hover:bg-green-600 transition duration-300 ease-in-out">
+            </form>
+        </div>
+
     </form>
 
     @php
@@ -85,10 +92,25 @@
     @endphp
 
     <script>
-        document.getElementById('amount').value = "{{ $total_amount }}";
-        document.getElementById('total_amount').value = "{{ $total_amount }}";
-        document.getElementById('transaction_uuid').value = "{{ $transaction_uuid }}";
-        document.getElementById('signature').value = "{{ $signature }}";
-    </script>
+    // Setting eSewa form data dynamically
+    document.getElementById('amount').value = "{{ $total_amount }}";
+    document.getElementById('total_amount').value = "{{ $total_amount }}";
+    document.getElementById('transaction_uuid').value = "{{ $transaction_uuid }}";
+    document.getElementById('signature').value = "{{ $signature }}";
 
+    // Handle payment method selection
+    document.getElementById('submit').addEventListener("click", function(event) {
+        event.preventDefault();
+
+        const paymentMethod = document.querySelector('select[name="payment_method"]').value;
+
+        if (paymentMethod === "COD") {
+            document.getElementById('COD').submit();
+        } else if (paymentMethod === "esewa") {
+            document.getElementById('esewa').submit();
+        } else {
+            alert("Please select a valid payment method.");
+        }
+    });
+</script>
 @endsection
