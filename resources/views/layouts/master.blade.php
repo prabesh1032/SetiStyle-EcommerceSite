@@ -2,90 +2,88 @@
 <html lang="en">
 
 <head>
-<link
-    href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
-    rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title') - My Website</title>
+    <title>@yield('title') - ChillShop</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-cyan-100 text-gray-800">
+<body class="bg-gray-100 text-gray-800">
     @include('Layouts.alert')
-    <div class= "flex justify-between px-20 bg-green-500 text-white py-2">
+    <div class="flex justify-between px-20 bg-green-500 text-white py-2">
         <div>
-            <a href=""><i class="ri-phone-fill"></i>9812965119</a>
+            <a href="" class="text-lg font-semibold"><i class="ri-phone-fill"></i> 9812965119</a>
         </div>
         <div>
-        @auth
-            <a href="">HI,{{auth()->user()->name}}</a>
-            <a href="{{route('mycarts')}}"class="p-2">My Cart</a>
-            <form action="{{route('logout')}}" method="post" class="inline">
-                @csrf
-                <button type="submit" class="p-2">logout</button>
-            </form>
+            @auth
+                <a href="" class="text-lg font-semibold"><i class="ri-user-fill"></i> HI, {{ auth()->user()->name }}</a>
+                <a href="{{ route('mycarts') }}" class="p-3 text-lg font-semibold hover:text-blue-500"><i class="ri-shopping-cart-2-line"></i> My Cart</a>
+                <form action="{{ route('logout') }}" method="post" class="inline">
+                    @csrf
+                    <button type="submit" class="p-3 text-lg font-semibold hover:text-blue-500"><i class="ri-logout-box-line"></i> Logout</button>
+                </form>
             @else
-            <a href="/login" class="p-2 hover:text-blue-500">Login</a>
+                <a href="/login" class="p-3 text-lg font-semibold hover:text-blue-500"><i class="ri-login-box-line"></i> Login</a>
             @endauth
         </div>
     </div>
-    <nav class="flex justify-between items-center px-20 py-5 bg-cyan-300 shadow-md sticky top-0 z-10">
-        <div>
-            <img src="{{ asset('images.jpg') }}" alt="Logo" class="w-12" >
-        </div>
-        <div>
 
-            <a href="{{ route('home') }}" class="p-2 hover:text-blue-500">Home</a>
+    <!-- Navbar -->
+    <nav class="flex justify-between items-center px-20 py-6 bg-cyan-300 shadow-lg sticky top-0 z-10">
+        <div>
+            <a href="{{ route('home') }}">
+                <img src="{{ asset('logo.png') }}" alt="Logo" class="w-30 h-24 object-cover rounded-full  transform transition duration-300 ease-in-out hover:scale-125" />
+            </a>
+        </div>
+        <div class="flex space-x-1">
+            <a href="{{ route('home') }}" class="text-2xl font-semibold hover:text-blue-500 flex items-center space-x-2 p-3">
+                <i class="ri-home-2-line"></i> <span>Home</span>
+            </a>
             @php
-            $categories=App\Models\Category::orderBy('priority')->get();
+                $categories = App\Models\Category::orderBy('priority')->get();
             @endphp
             @foreach($categories as $category)
-            <a href="{{route('categoryproduct',$category->id)}}" class="p-2">{{$category->name}}</a>
+                <a href="{{ route('categoryproduct', $category->id) }}" class="text-2xl font-semibold hover:text-blue-500 flex items-center space-x-2 p-3">
+                    <i class="ri-shopping-bag-3-line"></i> <span>{{ $category->name }}</span>
+                </a>
             @endforeach
-
         </div>
     </nav>
-        @yield('content')
 
-    <footer class="bg-lime-200">
-        <div class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 px-10 py-10">
-            <div>
-                <h2 class="text-2xl font-bold mb-4">LOGO</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas quae sequi a dignissimos dolorum excepturi ut, quaerat qui in soluta officiis perspiciatis, quos inventore necessitatibus sed. Ad iste cupiditate rerum!</p>
-            </div>
-            <div>
-                <h2 class="text-2xl font-bold mb-4">Quick Links</h2>
-                <ul>
-                    <li><a href="{{ route('home') }}" class="p-2 block hover:text-blue-500">Home</a></li>
-                    <li><a href="{{ route('about') }}" class="p-2 block hover:text-blue-500">About</a></li>
-                    <li><a href="{{ route('contact') }}" class="p-2 block hover:text-blue-500">Contact</a></li>
-                    <li><a href="/login" class="p-2 block hover:text-blue-500">Login</a></li>
-                </ul>
-            </div>
-            <div>
-                <h2 class="text-2xl font-bold mb-4">Contact Us</h2>
-                <p>Email: <a href="mailto:test@gmail.com" class="hover:text-blue-500">test@gmail.com</a></p>
-                <p>Phone: <a href="tel:+9742538007" class="hover:text-blue-500">9812965110</a></p>
-                <p>Address: <br>
-                    123, Chitwan <br>
-                    Nepal
-                </p>
-            </div>
-            <div>
-                <h2 class="text-2xl font-bold mb-4">Social Links</h2>
-                <ul>
-                    <li><a href="#" class="p-2 block hover:text-blue-500">Facebook</a></li>
-                    <li><a href="#" class="p-2 block hover:text-blue-500">Twitter</a></li>
-                    <li><a href="#" class="p-2 block hover:text-blue-500">Instagram</a></li>
-                    <li><a href="#" class="p-2 block hover:text-blue-500">LinkedIn</a></li>
-                </ul>
-            </div>
+    @yield('content')
+
+   <!-- Footer -->
+<!-- Footer -->
+<!-- Footer -->
+<footer class="bg-cyan-300 py-6 shadow-lg">
+    <div class="container mx-auto flex flex-wrap justify-between items-center px-10">
+        <!-- Contact Us -->
+        <div class="text-center md:text-left mb-4 md:mb-0">
+            <h2 class="text-2xl font-bold mb-2">Contact Us</h2>
+            <p class="text-xl font-semibold hover:text-blue-500 flex items-center space-x-2 p-2">
+                <i class="ri-mail-line mr-2"></i>
+                <a href="mailto:test@gmail.com" class="hover:text-blue-500">chillshop@gmail.com</a>
+            </p>
+            <p class="text-xl font-semibold hover:text-blue-500 flex items-center space-x-2 p-2">
+                <i class="ri-phone-fill mr-2"></i>
+                <a href="tel:+9742538007" class="hover:text-blue-500">9812965110</a>
+            </p>
         </div>
-        <div class="bg-blue-500 text-white text-center py-5">
-            <p>&copy; 2024 All rights reserved</p>
+
+        <!-- Social Links -->
+        <div class="flex space-x-4 justify-center md:justify-end">
+            <a href="#" class="text-2xl hover:text-blue-500"><i class="ri-facebook-fill"></i></a>
+            <a href="#" class="text-2xl hover:text-blue-500"><i class="ri-twitter-fill"></i></a>
+            <a href="#" class="text-2xl hover:text-blue-500"><i class="ri-instagram-fill"></i></a>
+            <a href="#" class="text-2xl hover:text-blue-500"><i class="ri-linkedin-box-fill"></i></a>
         </div>
-    </footer>
+    </div>
+    <div class="bg-cyan-400 text-center py-3 mt-4">
+        <p class="text-lg font-semibold">&copy; 2024 ChillShop. All rights reserved.</p>
+    </div>
+</footer>
+
 </body>
 
 </html>

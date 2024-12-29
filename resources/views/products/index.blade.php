@@ -1,9 +1,9 @@
- @extends('layouts.app')
+@extends('layouts.app')
 @section('title')Products
 @endsection
 @section('content')
 <div class="text-right my-5">
-    <a href="{{route('products.create')}}" class="bg-red-700 text-white py-3 px-5 rounded-md front-bold">ADD PRODUCT</a>
+    <a href="{{route('products.create')}}" class="bg-red-700 text-white py-3 px-5 rounded-md font-bold">ADD PRODUCT</a>
 </div>
 <table class="mt-5 w-full">
     <thead>
@@ -17,7 +17,6 @@
             <th class="border p-2 bg-lime-300">Brand</th>
             <th class="border p-2 bg-lime-300">Picture</th>
             <th class="border p-2 bg-lime-300">Action</th>
-
         </tr>
     </thead>
     <tbody>
@@ -28,24 +27,21 @@
             <td class="border p-2">{{$product->price}}</td>
             <td class="border p-2">{{$product->stock}}</td>
             <td class="border p-2">{{$product->description}}</td>
-            <td class="border p-2">{{$product->category->name}}</td>
-            <td class="border p-2">{{$product->brand->name}}</td>
+            <td class="border p-2">
+                {{ $product->category ? $product->category->name : 'No Category' }}
+            </td>
+            <td class="border p-2">
+                {{ $product->brand ? $product->brand->name : 'No Brand' }}
+            </td>
             <td class="border p-2">
                 <img src="{{ asset('images/' . $product->photopath) }}" alt="" class="h-20">
             </td>
-            <td class="border p-2"> 
-                <a href="{{route('products.edit',$product->id)}}
-                "class="bg-indigo-700 text-whitr px-3 py-1.5 rounded-lg">Edit</a>
-                <a href="{{route('products.destroy',$product->id)}}"
-                class="bg-red-700 text-whitr px-3 py-1.5 rounded-lg"
-                onclick= "return confirm('Are you sure to delete')">Delete</a>
+            <td class="border p-2">
+                <a href="{{route('products.edit',$product->id)}}" class="bg-indigo-700 text-white px-3 py-1.5 rounded-lg">Edit</a>
+                <a href="{{route('products.destroy',$product->id)}}" class="bg-red-700 text-white px-3 py-1.5 rounded-lg" onclick="return confirm('Are you sure to delete')">Delete</a>
             </td>
-
         </tr>
         @endforeach
     </tbody>
-
 </table>
-
 @endsection
-
