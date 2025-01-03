@@ -53,9 +53,6 @@
 
     @yield('content')
 
-   <!-- Footer -->
-<!-- Footer -->
-<!-- Footer -->
 <footer class="bg-cyan-300 py-6 shadow-lg">
     <div class="container mx-auto flex flex-wrap justify-between items-center px-10">
         <!-- Contact Us -->

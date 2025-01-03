@@ -46,7 +46,7 @@
 </div>
 <div class="text-center mb-12">
     <h2 class="text-4xl font-extrabold text-gray-900">Start Shopping Now</h2>
-    <p class="text-lg text-gray-600 mt-2">Discover our premium collection and stylish designs.</p>
+    <p class="text-lg text-gray-700 mt-2">Discover our premium collection and stylish designs.</p>
 </div>
 <!-- Decorative Image Section -->
 <div class="grid grid-cols-2 gap-6 mt-10">
