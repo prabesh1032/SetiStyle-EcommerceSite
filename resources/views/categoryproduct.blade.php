@@ -4,57 +4,69 @@
 <h1 class="text-gray-900 text-5xl text-center font-extrabold mt-10 mb-8">{{ $category->name }} Products</h1>
 
 <!-- Product Grid -->
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 px-5 md:px-20 py-12">
+<div class="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8 md:px-20 sm:px-10 px-5 py-12">
     @foreach($products as $product)
-    <div class="rounded-lg shadow-lg hover:shadow-xl p-6 bg-white transform transition-all duration-300 ease-in-out hover:scale-105">
-        <img src="{{ asset('images/'.$product->photopath) }}" alt="{{ $product->name }}" class="h-44 w-full object-cover rounded-lg mb-4">
+    <div class="group relative bg-white rounded-2xl shadow-xl overflow-hidden transform transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl border border-gray-100">
+        <!-- Image Container with Overlay -->
+        <div class="relative overflow-hidden">
+            <img src="{{ asset('images/' . $product->photopath) }}" alt="{{ $product->name }}" class="h-48 w-full object-cover transition-all duration-700 group-hover:scale-110">
 
-        <h1 class="text-xl font-bold text-gray-800 hover:text-blue-600 transition duration-200">{{ $product->name }}</h1>
-        <p class="text-gray-500 mt-2 text-sm">{{ $product->description }}</p>
+            <!-- Overlay gradient -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
 
-        <div class="flex justify-between items-center mt-4">
-            <h1 class="text-xl font-bold text-gray-900">{{ number_format($product->price, 2) }}</h1>
-            <a href="{{ route('viewproduct', $product->id) }}" class="bg-blue-800 text-white px-3 py-2 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-400 flex items-center">
-                <i class="ri-eye-line mr-2"></i> View Product
-            </a>
+            <!-- Stock Badge -->
+            <div class="absolute top-3 left-3">
+                @if($product->stock > 0)
+                    <div class="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg flex items-center animate-pulse">
+                        <i class="ri-check-line mr-1"></i>
+                        {{ $product->stock }} in stock
+                    </div>
+                @else
+                    <div class="bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg flex items-center">
+                        <i class="ri-close-line mr-1"></i>
+                        Out of stock
+                    </div>
+                @endif
+            </div>
+
+            <!-- Quick View Button -->
+            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                <a href="{{ route('viewproduct', $product->id) }}" class="bg-white text-gray-800 px-6 py-3 rounded-full font-semibold shadow-lg transform -translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-gray-100 flex items-center space-x-2">
+                    <i class="ri-eye-line"></i>
+                    <span>Quick View</span>
+                </a>
+            </div>
         </div>
+
+        <!-- Card Content -->
+        <div class="p-6">
+            <!-- Product Name -->
+            <h3 class="text-lg font-bold text-gray-800 mb-2 line-clamp-1 group-hover:text-blue-600 transition-colors duration-300">
+                {{ $product->name }}
+            </h3>
+
+            <!-- Description -->
+            <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ $product->description }}</p>
+
+            <!-- Price and Action -->
+            <div class="flex items-center justify-between">
+                <div class="flex flex-col">
+                    <span class="text-2xl font-bold text-green-600 flex items-center">
+                        Rs {{ number_format($product->price, 0) }}
+                    </span>
+                    <span class="text-xs text-gray-500">Best Price</span>
+                </div>
+
+                <a href="{{ route('viewproduct', $product->id) }}" class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-xl font-semibold shadow-lg hover:from-blue-600 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 flex items-center space-x-1">
+                    <i class="ri-shopping-cart-line"></i>
+                    <span>Shop</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Bottom Gradient Border -->
+        <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
     </div>
     @endforeach
-</div>
-
-<div class="text-center mb-12">
-    <h2 class="text-4xl font-extrabold text-gray-900">Start Shopping Now</h2>
-    <p class="text-lg text-gray-600 mt-2">Discover our premium collection and stylish designs.</p>
-</div>
-
-<!-- Featured Images Section -->
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10 px-5 md:px-20 pb-12 ">
-    <!-- Image 1 - Explore Fashion -->
-    <div class="relative">
-        <img src="{{ asset('e-commerce.png') }}" alt="Explore Fashion" class="w-full h-80 object-cover rounded-lg shadow-lg">
-        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-40 rounded-lg"></div>
-        <div class="absolute bottom-5 left-5 text-white">
-            <h2 class="text-4xl font-bold mb-2 transform transition duration-300 ease-in-out hover:scale-105 hover:text-yellow-400">
-                <i class="ri-t-shirt-2-line mr-2"></i> Explore Fashion
-            </h2>
-            <p class="text-lg transform transition duration-300 ease-in-out hover:scale-105 hover:text-yellow-400">
-                Discover the latest styles in fashion for men and women.
-            </p>
-        </div>
-    </div>
-
-    <!-- Image 2 - Stylish Accessories -->
-    <div class="relative ">
-        <img src="{{ asset('assoceries.png') }}" alt="Stylish Accessories" class="w-full h-80 object-cover rounded-lg shadow-lg">
-        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-40 rounded-lg"></div>
-        <div class="absolute bottom-5 left-5 text-white">
-            <h2 class="text-4xl font-bold mb-2 transform transition duration-300 ease-in-out hover:scale-105 hover:text-yellow-400">
-                <i class="ri-handbag-line mr-2"></i> Stylish Accessories
-            </h2>
-            <p class="text-lg transform transition duration-300 ease-in-out hover:scale-105 hover:text-yellow-400">
-                Complete your look with our collection of premium accessories.
-            </p>
-        </div>
-    </div>
 </div>
 @endsection

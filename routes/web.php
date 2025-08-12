@@ -23,10 +23,8 @@ Route::middleware('auth')->group(function(){
     Route::delete('cart/destroy',[CartController::class, 'destroy'])->name('cart.destroy');
     Route::get('checkout/{id}',[CartController::class,'checkout'])->name('checkout');
     Route::post('order/store',[OrderController::class,'store'])->name('order.store');
-    Route::get('order/{cartid}/storeEsewa',[OrderController::class,'storeEsewa'])->name('order.storeEsewa');
-
-
-
+    Route::post('order/prepare-esewa',[OrderController::class,'prepareEsewa'])->name('order.prepareEsewa');
+    Route::get('order/{cartid}/storeEsewa', [OrderController::class, 'storeEsewa'])->name('order.storeEsewa');
 });
 
 Route::get('/dashboard', [DashboardController::class,'dashboard'])->middleware(['auth',

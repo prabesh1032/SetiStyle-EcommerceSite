@@ -19,7 +19,19 @@ class DashboardController extends Controller
         $pendingorders=Order::where('status','Pending')->count();
         $totalcategories=Category::count();
         $totalbrands=Brand::count();
+
+        // Get monthly order data for chart
+        $monthlyOrders = [];
+        $monthlyLabels = [];
+
+        for ($i = 29; $i >= 0; $i--) {
+            $date = now()->subDays($i);
+            $dayOrders = Order::whereDate('created_at', $date)->count();
+            $monthlyOrders[] = $dayOrders;
+            $monthlyLabels[] = $date->format('M j');
+        }
+
         return view('dashboard',compact('totalproducts','totalcategories','totalbrands','totalorders',
-    'pendingorders','deliverorders','processingorders'));
+    'pendingorders','deliverorders','processingorders','monthlyOrders','monthlyLabels'));
     }
 }

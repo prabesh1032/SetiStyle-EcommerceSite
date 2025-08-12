@@ -3,38 +3,75 @@
 @section('title') Categories @endsection
 
 @section('content')
-<div class="text-right my-5">
-    <a href="{{ route('categories.create') }}" class="bg-blue-600 text-white py-3 px-6 rounded-md font-semibold shadow-lg hover:bg-blue-700 transition duration-300 transform hover:scale-105">
-        <i class="ri-add-line text-xl mr-2"></i> Add Category
+<div class="text-center sm:text-right mb-3">
+    <a href="{{ route('categories.create') }}"
+       class="bg-blue-500 text-white py-2 px-4 rounded-full font-semibold hover:bg-blue-700 transition duration-300 transform hover:scale-110 inline-block">
+        <i class="ri-add-line text-sm"></i> <span class="text-sm">Add Category</span>
     </a>
 </div>
+<!-- Categories Table -->
+<div class="bg-white rounded-lg shadow overflow-x-auto">
+    <table class="min-w-full divide-gray-200">
+        <thead class="bg-teal-500 text-white p-5 font-bold border border-gray-300">
+            <tr>
+                <th scope="col" class="p-2 text-center text-xs font-bold uppercase tracking-wider border-r border-teal-400">S.N</th>
+                <th scope="col" class="p-2 text-center text-xs font-bold uppercase tracking-wider border-r border-teal-400">Category Name</th>
+                <th scope="col" class="p-2 text-center text-xs font-bold uppercase tracking-wider border-r border-teal-400">Priority</th>
+                <th scope="col" class="p-2 text-center text-xs font-bold uppercase tracking-wider">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y p-5 divide-gray-200">
+            @forelse($categories as $category)
+            <tr class="hover:bg-gray-50 transition-colors duration-150">
+                <td class="p-1 whitespace-nowrap text-sm text-center text-gray-900 border-r border-gray-100">
+                    {{ ($categories->currentPage() - 1) * $categories->perPage() + $loop->iteration }}.
+                </td>
+                <td class="p-1 whitespace-nowrap text-center text-sm text-gray-800 border-r border-gray-100">
+                    {{ $category->name }}
+                </td>
+                <td class="p-1 whitespace-nowrap text-center text-sm text-gray-800 border-r border-gray-100">
+                    {{ $category->priority }}
+                </td>
+                <td class="p-1 whitespace-nowrap text-sm font-medium text-center">
+                    <div class="flex justify-center space-x-2">
+                        <a href="{{ route('categories.edit', $category->id) }}"
+                           class="text-blue-600 hover:text-blue-900 transition-colors duration-200"
+                           title="Edit">
+                            <i class="ri-pencil-line text-lg"></i>
+                        </a>
+                        <form action="{{ route('categories.destroy', $category->id) }}" method="POST"
+                              onsubmit="return confirm('Are you sure you want to delete this category?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                    class="text-red-600 hover:text-red-900 transition-colors duration-200"
+                                    title="Delete">
+                                <i class="ri-delete-bin-line text-lg"></i>
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            @empty
+            <tr>
+                <td colspan="4" class="px-6 py-4 text-center">
+                    <div class="bg-white rounded-lg p-8 text-center">
+                        <i class="ri-list-check-2 text-5xl text-gray-400 mb-4"></i>
+                        <h3 class="text-xl font-medium text-gray-700">No categories found</h3>
+                        <p class="text-gray-500 mt-2">
+                            Start by adding your first category
+                        </p>
+                    </div>
+                </td>
+            </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
 
-<table class="mt-5 w-full table-auto rounded-lg overflow-hidden shadow-md">
-    <thead>
-        <tr class="bg-gradient-to-r from-teal-500 to-cyan-400 text-white">
-            <th class="border p-4 text-lg">S.N.</th>
-            <th class="border p-4 text-lg">Category</th>
-            <th class="border p-4 text-lg">Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($categories as $category)
-        <tr class="text-center hover:bg-gray-50 transition duration-300">
-            <td class="border p-4 text-lg">{{ $category->priority }}</td>
-            <td class="border p-4 text-lg font-medium text-gray-700">{{ $category->name }}</td>
-            <td class="border p-4">
-                <a href="{{ route('categories.edit', $category->id) }}"
-                   class="bg-yellow-500 text-white px-4 py-2 rounded-lg transition duration-300 transform hover:scale-105 hover:bg-yellow-600">
-                    <i class="ri-pencil-line text-xl mr-2"></i> Edit
-                </a>
-                <a href="{{ route('categories.destroy', $category->id) }}"
-                   class="bg-red-600 text-white px-4 py-2 rounded-lg ml-2 transition duration-300 transform hover:scale-105 hover:bg-red-700"
-                   onclick="return confirm('Are you sure you want to delete this category?')">
-                    <i class="ri-delete-bin-5-line text-xl mr-2"></i> Delete
-                </a>
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+@if($categories->hasPages())
+<div class="mt-4">
+    {{ $categories->appends(request()->query())->links() }}
+</div>
+@endif
 @endsection

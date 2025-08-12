@@ -3,136 +3,227 @@
 @section('title') Dashboard @endsection
 
 @section('content')
-<div class="container mx-auto p-6">
-    <!-- Header Section -->
-    <div class="mb-8 text-center">
-        <h1 class="text-4xl font-semibold text-gray-800">Chill-Shop Dashboard</h1>
-        <p class="text-xl text-gray-600">Manage your store with ease. Here’s a quick overview of your business performance.</p>
-    </div>
+<div class="container mx-auto p-3 lg:p-6">
 
-    <!-- Stats Section -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12">
-        <!-- Total Sales -->
-        <div class="bg-blue-500 text-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105">
-            <div class="flex justify-between items-center">
-                <i class="ri-money-dollar-circle-line text-4xl"></i>
-                <div>
-                    <h3 class="text-2xl font-bold">Total Sales</h3>
-                    <p class="text-3xl font-bold">$125,000</p>
-                </div>
-            </div>
-        </div>
-
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-6 mb-6 lg:mb-8">
         <!-- Total Products -->
-        <div class="bg-green-500 text-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105">
-            <div class="flex justify-between items-center">
-                <i class="ri-product-hunt-line text-4xl"></i>
-                <div>
-                    <h3 class="text-2xl font-bold">Total Products</h3>
-                    <p class="text-3xl font-bold">{{$totalproducts}}</p>
+        <a href="{{ route('products.index') }}" class="bg-white rounded-lg lg:rounded-xl shadow-sm border border-gray-200 overflow-hidden transition-all hover:shadow-md transform hover:scale-105">
+            <div class="p-4 lg:p-6 bg-purple-300">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-sm lg:text-lg font-medium text-gray-700">Total Products</h3>
+                    <div class="p-2 lg:p-3 rounded-full bg-blue-100 text-blue-600">
+                        <i class="ri-box-3-line text-lg lg:text-xl"></i>
+                    </div>
                 </div>
+                <p class="text-xl lg:text-2xl font-bold mt-3 lg:mt-4 text-gray-800">{{ $totalproducts }}</p>
             </div>
-        </div>
+        </a>
+
+        <!-- Total Categories -->
+        <a href="{{ route('categories.index') }}" class="bg-white rounded-lg lg:rounded-xl shadow-sm border border-gray-200 overflow-hidden transition-all hover:shadow-md transform hover:scale-105">
+            <div class="p-4 lg:p-6 bg-amber-300">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-sm lg:text-lg font-medium text-gray-700">Total Categories</h3>
+                    <div class="p-2 lg:p-3 rounded-full bg-purple-100 text-purple-600">
+                        <i class="ri-list-check-2 text-lg lg:text-xl"></i>
+                    </div>
+                </div>
+                <p class="text-xl lg:text-2xl font-bold mt-3 lg:mt-4 text-gray-800">{{ $totalcategories }}</p>
+            </div>
+        </a>
+
+        <!-- Total Brands -->
+        <a href="{{ route('brand.index') }}" class="bg-white rounded-lg lg:rounded-xl shadow-sm border border-gray-200 overflow-hidden transition-all hover:shadow-md transform hover:scale-105">
+            <div class="p-4 lg:p-6 bg-blue-300">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-sm lg:text-lg font-medium text-gray-700">Total Brands</h3>
+                    <div class="p-2 lg:p-3 rounded-full bg-green-100 text-green-600">
+                        <i class="ri-bookmark-line text-lg lg:text-xl"></i>
+                    </div>
+                </div>
+                <p class="text-xl lg:text-2xl font-bold mt-3 lg:mt-4 text-gray-800">{{ $totalbrands }}</p>
+            </div>
+        </a>
 
         <!-- Total Orders -->
-        <div class="bg-yellow-500 text-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105">
-            <div class="flex justify-between items-center">
-                <i class="ri-file-list-3-line text-4xl"></i>
+        <a href="{{ route('orders.index') }}" class="bg-white rounded-lg lg:rounded-xl shadow-sm border border-gray-200 overflow-hidden transition-all hover:shadow-md transform hover:scale-105">
+            <div class="p-4 lg:p-6 bg-green-300">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-sm lg:text-lg font-medium text-gray-700">Total Orders</h3>
+                    <div class="p-2 lg:p-3 rounded-full bg-red-100 text-red-600">
+                        <i class="ri-shopping-cart-line text-lg lg:text-xl"></i>
+                    </div>
+                </div>
+                <p class="text-xl lg:text-2xl font-bold mt-3 lg:mt-4 text-gray-800">{{ $totalorders }}</p>
+            </div>
+        </a>
+
+        <!-- Pending Orders -->
+        <div class="bg-white rounded-lg lg:rounded-xl shadow-sm border border-gray-200 overflow-hidden transition-all hover:shadow-md transform hover:scale-105">
+            <div class="p-4 lg:p-6 bg-yellow-300">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-sm lg:text-lg font-medium text-gray-700">Pending Orders</h3>
+                    <div class="p-2 lg:p-3 rounded-full bg-orange-100 text-orange-600">
+                        <i class="ri-time-line text-lg lg:text-xl"></i>
+                    </div>
+                </div>
+                <p class="text-xl lg:text-2xl font-bold mt-3 lg:mt-4 text-gray-800">{{ $pendingorders }}</p>
+            </div>
+        </div>
+
+        <!-- Delivered Orders -->
+        <div class="bg-white rounded-lg lg:rounded-xl shadow-sm border border-gray-200 overflow-hidden transition-all hover:shadow-md transform hover:scale-105">
+            <div class="p-4 lg:p-6 bg-emerald-300">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-sm lg:text-lg font-medium text-gray-700">Delivered Orders</h3>
+                    <div class="p-2 lg:p-3 rounded-full bg-green-100 text-green-600">
+                        <i class="ri-check-double-line text-lg lg:text-xl"></i>
+                    </div>
+                </div>
+                <p class="text-xl lg:text-2xl font-bold mt-3 lg:mt-4 text-gray-800">{{ $deliverorders }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Orders Performance Chart -->
+    <div class="mb-8 lg:mb-12">
+        <h2 class="text-2xl lg:text-3xl font-semibold text-gray-800 mb-4 lg:mb-6 px-1">Orders Performance</h2>
+        <div class="bg-white p-4 lg:p-6 rounded-lg lg:rounded-xl shadow-lg border border-gray-200">
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 lg:mb-6 space-y-3 sm:space-y-0">
                 <div>
-                    <h3 class="text-2xl font-bold">Total Orders</h3>
-                    <p class="text-3xl font-bold">{{$totalorders}}</p>
+                    <h3 class="text-lg lg:text-2xl font-bold text-gray-800">Orders Last 30 Days</h3>
+                    <p class="text-sm lg:text-base text-gray-600">Track your daily order trends</p>
+                </div>
+                <div class="p-2 lg:p-3 rounded-full bg-blue-100 text-blue-600 w-fit">
+                    <i class="ri-bar-chart-box-line text-xl lg:text-2xl"></i>
+                </div>
+            </div>
+            <div class="relative">
+                <div class="h-64 sm:h-80 lg:h-96">
+                    <canvas id="ordersChart" class="w-full h-full"></canvas>
+                </div>
+            </div>
+
+            <!-- Chart Summary -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:gap-4 mt-4 lg:mt-6 pt-4 lg:pt-6 border-t">
+                <div class="text-center p-3 bg-gray-50 rounded-lg">
+                    <p class="text-xl lg:text-2xl font-bold text-blue-600">{{ array_sum($monthlyOrders) }}</p>
+                    <p class="text-xs lg:text-sm text-gray-600">Total Orders (30 days)</p>
+                </div>
+                <div class="text-center p-3 bg-gray-50 rounded-lg">
+                    <p class="text-xl lg:text-2xl font-bold text-green-600">{{ round(array_sum($monthlyOrders) / 30, 1) }}</p>
+                    <p class="text-xs lg:text-sm text-gray-600">Daily Average</p>
+                </div>
+                <div class="text-center p-3 bg-gray-50 rounded-lg">
+                    <p class="text-xl lg:text-2xl font-bold text-purple-600">{{ max($monthlyOrders) }}</p>
+                    <p class="text-xs lg:text-sm text-gray-600">Best Day</p>
                 </div>
             </div>
         </div>
-
-        <!-- Total Customers -->
-        <div class="bg-purple-500 text-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105">
-            <div class="flex justify-between items-center">
-                <i class="ri-user-line text-4xl"></i>
-                <div>
-                    <h3 class="text-2xl font-bold">Total Customers</h3>
-                    <p class="text-3xl font-bold"></p>
-                </div>
-            </div>
-        </div>
     </div>
 
-    <!-- Recent Activity Section -->
-    <div class="mb-12">
-        <h2 class="text-3xl font-semibold text-gray-800 mb-6">Recent Activity</h2>
-        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-            <div class="p-6">
-                <ul class="space-y-4">
-                    <li class="flex justify-between items-center">
-                        <div class="flex items-center">
-                            <i class="ri-check-line text-green-500 text-2xl"></i>
-                            <span class="ml-4 text-gray-700">Order #12345 placed by John Doe</span>
-                        </div>
-                        <span class="text-gray-600">2 minutes ago</span>
-                    </li>
-                    <li class="flex justify-between items-center">
-                        <div class="flex items-center">
-                            <i class="ri-check-line text-green-500 text-2xl"></i>
-                            <span class="ml-4 text-gray-700">Order #12344 placed by Jane Smith</span>
-                        </div>
-                        <span class="text-gray-600">15 minutes ago</span>
-                    </li>
-                    <li class="flex justify-between items-center">
-                        <div class="flex items-center">
-                            <i class="ri-check-line text-green-500 text-2xl"></i>
-                            <span class="ml-4 text-gray-700">New product added: "Premium Headphones"</span>
-                        </div>
-                        <span class="text-gray-600">1 hour ago</span>
-                    </li>
-                    <li class="flex justify-between items-center">
-                        <div class="flex items-center">
-                            <i class="ri-check-line text-green-500 text-2xl"></i>
-                            <span class="ml-4 text-gray-700">Product "Smartwatch" out of stock</span>
-                        </div>
-                        <span class="text-gray-600">2 hours ago</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+    <!-- Chart.js Script -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Orders Chart
+        const ctx = document.getElementById('ordersChart').getContext('2d');
+        const ordersChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {!! json_encode($monthlyLabels) !!},
+                datasets: [{
+                    label: 'Daily Orders',
+                    data: {!! json_encode($monthlyOrders) !!},
+                    borderColor: 'rgb(59, 130, 246)',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    borderWidth: window.innerWidth < 768 ? 2 : 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: 'rgb(59, 130, 246)',
+                    pointBorderColor: 'white',
+                    pointBorderWidth: 2,
+                    pointRadius: window.innerWidth < 768 ? 3 : 5,
+                    pointHoverRadius: window.innerWidth < 768 ? 6 : 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleColor: 'white',
+                        bodyColor: 'white',
+                        borderColor: 'rgb(59, 130, 246)',
+                        borderWidth: 1,
+                        cornerRadius: 8,
+                        displayColors: false,
+                        titleFont: {
+                            size: window.innerWidth < 768 ? 12 : 14
+                        },
+                        bodyFont: {
+                            size: window.innerWidth < 768 ? 11 : 13
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        },
+                        ticks: {
+                            color: '#6B7280',
+                            font: {
+                                size: window.innerWidth < 768 ? 10 : 12
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#6B7280',
+                            maxTicksLimit: window.innerWidth < 768 ? 6 : 10,
+                            font: {
+                                size: window.innerWidth < 768 ? 10 : 12
+                            },
+                            maxRotation: window.innerWidth < 768 ? 45 : 0
+                        }
+                    }
+                },
+                elements: {
+                    point: {
+                        hoverBackgroundColor: 'rgb(59, 130, 246)'
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                }
+            }
+        });
 
-    <!-- Sales Performance -->
-    <div class="mb-12">
-        <h2 class="text-3xl font-semibold text-gray-800 mb-6">Sales Performance</h2>
-        <div class="bg-white p-6 rounded-lg shadow-lg">
-            <div class="flex justify-between items-center mb-6">
-                <div>
-                    <h3 class="text-2xl font-bold text-gray-800">Sales Last 7 Days</h3>
-                    <p class="text-gray-600">Track your sales trends</p>
-                </div>
-                <i class="ri-bar-chart-box-line text-4xl text-gray-500"></i>
-            </div>
-            <div>
-                <div id="salesChart" class="w-full h-64 bg-gray-100 rounded-lg shadow-inner"></div> <!-- You can integrate a chart here using a library -->
-            </div>
-        </div>
-    </div>
+        // Handle window resize for chart responsiveness
+        window.addEventListener('resize', function() {
+            if (ordersChart) {
+                ordersChart.resize();
 
-    <!-- Recent Reviews -->
-    <div class="mb-12">
-        <h2 class="text-3xl font-semibold text-gray-800 mb-6">Recent Product Reviews</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
-                <h3 class="text-xl font-semibold text-gray-800">Product A</h3>
-                <p class="text-gray-600">"Great product, highly recommended!"</p>
-                <span class="text-gray-500 text-sm">4.5 stars</span>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
-                <h3 class="text-xl font-semibold text-gray-800">Product B</h3>
-                <p class="text-gray-600">"Good quality but needs improvement in design."</p>
-                <span class="text-gray-500 text-sm">3.8 stars</span>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
-                <h3 class="text-xl font-semibold text-gray-800">Product C</h3>
-                <p class="text-gray-600">"Excellent value for money. Will buy again."</p>
-                <span class="text-gray-500 text-sm">5 stars</span>
-            </div>
-        </div>
-    </div>
+                // Update mobile-specific settings
+                const isMobile = window.innerWidth < 768;
+                ordersChart.data.datasets[0].borderWidth = isMobile ? 2 : 3;
+                ordersChart.data.datasets[0].pointRadius = isMobile ? 3 : 5;
+                ordersChart.data.datasets[0].pointHoverRadius = isMobile ? 6 : 8;
+                ordersChart.options.scales.x.ticks.maxTicksLimit = isMobile ? 6 : 10;
+                ordersChart.options.scales.x.ticks.maxRotation = isMobile ? 45 : 0;
+                ordersChart.update();
+            }
+        });
+    </script>
 </div>
 @endsection

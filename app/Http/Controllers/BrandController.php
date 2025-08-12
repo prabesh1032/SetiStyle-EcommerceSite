@@ -9,8 +9,8 @@ class BrandController extends Controller
 {
     public function index()
     {
-        $brands=Brand::all();
-        return view('brands.index',compact('brands'));
+        $brands = Brand::paginate(10);
+        return view('brands.index', compact('brands'));
     }
     public function create()
     {

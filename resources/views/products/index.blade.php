@@ -3,65 +3,88 @@
 @section('title') Products @endsection
 
 @section('content')
-<div class="text-right my-5">
-    <a href="{{ route('products.create') }}" class="bg-blue-600 text-white py-3 px-6 rounded-md font-semibold shadow-lg hover:bg-blue-700 transition duration-300 transform hover:scale-105">
-        <i class="ri-add-line text-xl mr-2"></i> <span class="text-lg">Add Product</span>
+<div class="text-center sm:text-right mb-3">
+    <a href="{{ route('products.create') }}"
+       class="bg-blue-500 text-white py-2 px-4 rounded-full font-semibold hover:bg-blue-700 transition duration-300 transform hover:scale-110 inline-block">
+        <i class="ri-add-line text-sm"></i> <span class="text-sm">Add Product</span>
     </a>
 </div>
 
-<div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-    @foreach($products as $product)
-    <div class="bg-white p-4 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 transform hover:scale-105 max-w-xs mx-auto">
-        <div class="text-center">
-            <!-- Product Image -->
-            <img src="{{ asset('images/' . $product->photopath) }}" alt="{{ $product->name }}" class="w-full h-32 object-cover rounded-lg mb-4">
-
-            <!-- Product Details -->
-            <h2 class="text-xl font-semibold text-gray-800 mb-2">{{ $product->name }}</h2>
-
-            <!-- Price with Icon -->
-            <div class="flex items-center justify-center space-x-2 mb-2">
-                <i class="ri-price-tag-3-line text-2xl text-green-600"></i>
-                <p class="text-md text-gray-600">Price: <span class="font-bold text-green-600">${{ $product->price }}</span></p>
-            </div>
-
-            <!-- Stock with Icon -->
-            <div class="flex items-center justify-center space-x-2 mb-2">
-                <i class="ri-archive-line text-2xl text-blue-500"></i>
-                <p class="text-sm text-gray-500">Stock: <span class="font-semibold text-blue-500">{{ $product->stock }}</span></p>
-            </div>
-
-            <!-- Description with Icon -->
-            <!-- <div class="flex items-center justify-center space-x-2 mb-2">
-                <i class="ri-file-text-line text-2xl text-gray-500"></i>
-                <p class="text-sm text-gray-600">{{ $product->description }}</p>
-            </div> -->
-
-            <!-- Category with Icon -->
-            <div class="flex items-center justify-center space-x-2 mb-2">
-                <i class="ri-archive-box-line text-2xl text-orange-600"></i>
-                <p class="text-sm text-gray-600">Category: <span class="text-orange-600">{{ $product->category ? $product->category->name : 'No Category' }}</span></p>
-            </div>
-
-            <!-- Brand with Icon -->
-            <div class="flex items-center justify-center space-x-2 mb-4">
-                <i class="ri-plant-line text-2xl text-teal-600"></i>
-                <p class="text-sm text-gray-600">Brand: <span class="text-teal-600">{{ $product->brand ? $product->brand->name : 'No Brand' }}</span></p>
-            </div>
-
-            <!-- Action Buttons with Hover Effects -->
-            <div class="flex justify-center space-x-4">
-                <a href="{{ route('products.edit', $product->id) }}" class="bg-indigo-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-indigo-700 transition duration-300 flex items-center space-x-2 hover:scale-105">
-                    <i class="ri-pencil-line text-lg"></i>
-                    <span class="text-lg">Edit</span>
-                </a>
-                <a href="{{ route('products.destroy', $product->id) }}" class="bg-red-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition duration-300 flex items-center space-x-2 hover:scale-105" onclick="return confirm('Are you sure to delete?')">
-                    <i class="ri-delete-bin-5-line text-lg"></i>
-                    <span class="text-lg">Delete</span>
-                </a>
-            </div>
-        </div>
-    </div>
-    @endforeach
+<!-- Products Table -->
+<div class="bg-white rounded-lg shadow overflow-x-auto">
+    <table class="min-w-full divide-gray-200">
+        <thead class="bg-teal-500 text-white p-5 font-bold border border-gray-300">
+            <tr>
+                <th scope="col" class="p-2 text-center text-xs font-bold uppercase tracking-wider border-r border-teal-400">S.N</th>
+                <th scope="col" class="p-2 text-center text-xs font-bold uppercase tracking-wider border-r border-teal-400">Product Name</th>
+                <th scope="col" class="p-2 text-center text-xs font-bold uppercase tracking-wider border-r border-teal-400">Price</th>
+                <th scope="col" class="p-2 text-center text-xs font-bold uppercase tracking-wider border-r border-teal-400">Stock</th>
+                <th scope="col" class="p-2 text-center text-xs font-bold uppercase tracking-wider border-r border-teal-400">Category</th>
+                <th scope="col" class="p-2 text-center text-xs font-bold uppercase tracking-wider border-r border-teal-400">Picture</th>
+                <th scope="col" class="p-2 text-center text-xs font-bold uppercase tracking-wider">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y p-5 divide-gray-200">
+            @forelse($products as $product)
+            <tr class="hover:bg-gray-50 transition-colors duration-150">
+                <td class="p-1 whitespace-nowrap text-sm text-center text-gray-900 border-r border-gray-100">
+                    {{ ($products->currentPage() - 1) * $products->perPage() + $loop->iteration }}.
+                </td>
+                <td class="p-1 whitespace-nowrap text-center text-sm text-gray-800 border-r border-gray-100">
+                    {{ $product->name }}
+                </td>
+                <td class="p-1 whitespace-nowrap text-center text-sm text-gray-800 border-r border-gray-100">
+                    Rs. {{ number_format($product->price, 0) }}
+                </td>
+                <td class="p-1 whitespace-nowrap text-center text-sm text-gray-800 border-r border-gray-100">
+                    {{ $product->stock }}
+                </td>
+                <td class="p-1 whitespace-nowrap text-center text-sm text-gray-800 border-r border-gray-100">
+                    {{ $product->category->name ?? 'N/A' }}
+                </td>
+                <td class="p-1 whitespace-nowrap text-center text-sm text-gray-800 border-r border-gray-100">
+                    <img src="{{ asset('images/'.$product->photopath) }}" alt="Product Image" class="h-10 w-10 object-cover rounded-md mx-auto">
+                </td>
+                <td class="p-1 whitespace-nowrap text-sm font-medium text-center">
+                    <div class="flex justify-center space-x-2">
+                        <a href="{{ route('products.edit', $product->id) }}"
+                           class="text-blue-600 hover:text-blue-900 transition-colors duration-200"
+                           title="Edit">
+                            <i class="ri-pencil-line text-lg"></i>
+                        </a>
+                        <form action="{{ route('products.destroy', $product->id) }}" method="POST"
+                              onsubmit="return confirm('Are you sure you want to delete this product?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                    class="text-red-600 hover:text-red-900 transition-colors duration-200"
+                                    title="Delete">
+                                <i class="ri-delete-bin-line text-lg"></i>
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            @empty
+            <tr>
+                <td colspan="7" class="px-6 py-4 text-center">
+                    <div class="bg-white rounded-lg p-8 text-center">
+                        <i class="ri-shopping-bag-line text-5xl text-gray-400 mb-4"></i>
+                        <h3 class="text-xl font-medium text-gray-700">No products found</h3>
+                        <p class="text-gray-500 mt-2">
+                            Start by adding your first product
+                        </p>
+                    </div>
+                </td>
+            </tr>
+            @endforelse
+        </tbody>
+    </table>
 </div>
+
+@if($products->hasPages())
+<div class="mt-4">
+    {{ $products->appends(request()->query())->links() }}
+</div>
+@endif
 @endsection

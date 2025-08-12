@@ -11,7 +11,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with('category', 'brand')->get(); // Eager loading category and brand
+        $products = Product::with('category', 'brand')->paginate(10); // Eager loading with pagination
         return view('products.index', compact('products'));
     }
     public function create()
@@ -37,7 +37,7 @@ class ProductController extends Controller
         $data['photopath']=$photoname;
 
         Product::create($data);
-       return redirect()->route('products.index')->with('success','Product Created Sucessfully');
+        return redirect()->route('products.index')->with('success','Product Created Sucessfully');
 
     }
     public function edit($id)

@@ -39,7 +39,7 @@
              @enderror
     </div>
     <div class="mb-5">
-        <input type="text" placeholder="Enter Stock Name" class="p-3 w-full rounded-lg"
+        <input type="text" placeholder="Enter Stock number" class="p-3 w-full rounded-lg"
         name="stock" value="{{old('stock')}}">
         @error('stock')
         <div class="text-red-600 mt-2 text-5m">
