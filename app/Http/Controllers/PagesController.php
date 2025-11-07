@@ -35,4 +35,11 @@ class PagesController extends Controller
         return view('viewproduct',compact('product','relatedproducts'));
     }
 
+    public function search(Request $request)
+    {
+        $qry = $request->input('qry', '');
+        $products = Product::where('name','like','%'.$qry.'%')->get();
+        return view('search', compact('products', 'qry'));
+    }
+
 }

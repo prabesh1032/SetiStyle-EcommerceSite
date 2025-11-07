@@ -25,7 +25,7 @@ class isadmin
         if (Auth::user()->role == 'admin') {
             return $next($request);
         } else {
-            return redirect('/')->with('error', 'You do not have admin access');
+            return redirect('/');
         }
     }
 }

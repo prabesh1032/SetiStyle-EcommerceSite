@@ -45,44 +45,77 @@
 <body class="bg-gray-100 text-gray-800">
     @include('Layouts.alert')
     <!-- Top Bar -->
-    <div class="flex justify-between px-4 md:px-20 bg-green-500 text-white py-2">
-        <div>
-            <a href="" class="text-sm md:text-lg font-semibold"><i class="ri-phone-fill"></i> <span class="hidden sm:inline">9812965119</span></a>
-        </div>
-        <div class="flex items-center space-x-2">
-            @auth
-                <a href="" class="text-sm md:text-lg font-semibold hidden md:inline"><i class="ri-user-fill"></i> HI, {{ auth()->user()->name }}</a>
-                <div class="relative inline-block">
-                    <a href="{{ route('mycarts') }}" class="p-2 md:p-3 text-sm md:text-lg font-semibold relative rounded-lg transition-all duration-300 {{ request()->routeIs('mycarts') ? 'text-blue-600' : 'hover:text-blue-500' }}">
-                        <i class="ri-shopping-cart-2-line"></i>
-                        <span class="hidden sm:inline">My Cart</span>
-                    </a>
-                    <span class="absolute -top-1 -right-2 bg-red-600 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
-                        @php
-                            $no_of_items = \App\Models\Cart::where('user_id', auth()->id())->count();
-                        @endphp
-                        {{ $no_of_items }}
-                    </span>
+    <div class="bg-gradient-to-r from-cyan-600 to-purple-600 text-white py-3 md:py-4 shadow-lg">
+        <div class="flex justify-between items-center px-4 md:px-20 gap-4">
+            <!-- Left Side - Contact Info with Icon -->
+            <div class="flex items-center space-x-3">
+                <div class="bg-white/20 backdrop-blur-sm rounded-full p-2 hover:bg-white/30 transition-all duration-300">
+                    <i class="ri-phone-line text-lg md:text-xl text-white"></i>
                 </div>
-                <form action="{{ route('logout') }}" method="post" class="inline">
-                    @csrf
-                    <button type="submit" class="p-2 md:p-3 text-sm md:text-lg font-semibold hover:text-blue-500">
-                        <i class="ri-logout-box-line"></i>
-                        <span class="hidden sm:inline">Logout</span>
-                    </button>
-                </form>
-            @else
-                <a href="/login" class="p-2 md:p-3 text-sm md:text-lg font-semibold hover:text-blue-500">
-                    <i class="ri-login-box-line"></i>
-                    <span class="hidden sm:inline">Login</span>
-                </a>
-            @endauth
+                <div class="hidden sm:block">
+                    <p class="text-xs md:text-sm text-white/80 font-medium">Call Us</p>
+                    <a href="tel:9812965119" class="text-sm md:text-base font-semibold text-white hover:text-cyan-200 transition-colors duration-300">
+                        +977 9812965119
+                    </a>
+                </div>
+            </div>
+
+            <!-- Center - Tagline -->
+            <div class="hidden lg:block">
+                <p class="text-center text-sm md:text-base font-semibold text-white/90 tracking-wide">
+                    ✨ Your Style, Your Statement ✨
+                </p>
+            </div>
+
+            <!-- Right Side - User Actions -->
+            <div class="flex items-center space-x-1 md:space-x-2">
+                @auth
+                    <!-- User Profile -->
+                    <a href="{{ route('profile.edit') }}" class="hidden md:flex items-center space-x-2 px-3 py-2 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-300 group">
+                        <i class="ri-user-fill text-lg text-cyan-200 group-hover:text-cyan-100"></i>
+                        <span class="text-sm font-semibold text-white group-hover:text-cyan-100">{{ auth()->user()->name }}</span>
+                    </a>
+
+                    <!-- Cart with Badge -->
+                    <div class="relative inline-block group">
+                        <a href="{{ route('mycarts') }}" class="p-2 md:p-3 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-300 flex items-center justify-center {{ request()->routeIs('mycarts') ? 'bg-white/30' : '' }}">
+                            <i class="ri-shopping-cart-2-line text-lg md:text-xl text-white"></i>
+                            <span class="hidden sm:inline text-sm font-semibold ml-2 text-white">Cart</span>
+                        </a>
+                        <span class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs w-6 h-6 flex items-center justify-center font-bold shadow-lg animate-pulse">
+                            @php
+                                $no_of_items = \App\Models\Cart::where('user_id', auth()->id())->count();
+                            @endphp
+                            {{ $no_of_items }}
+                        </span>
+                        <!-- Tooltip -->
+                        <div class="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs py-1 px-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+                            My Cart ({{ $no_of_items }})
+                        </div>
+                    </div>
+
+                    <!-- Logout -->
+                    <form action="{{ route('logout') }}" method="post" class="inline">
+                        @csrf
+                        <button type="submit" class="p-2 md:p-3 rounded-full bg-white/10 backdrop-blur-sm hover:bg-red-500/40 transition-all duration-300 text-white hover:text-white flex items-center justify-center">
+                            <i class="ri-logout-box-line text-lg md:text-xl"></i>
+                            <span class="hidden sm:inline text-sm font-semibold ml-2">Logout</span>
+                        </button>
+                    </form>
+                @else
+                    <!-- Login Button -->
+                    <a href="/login" class="p-2 md:p-3 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all duration-300 text-white font-semibold flex items-center justify-center space-x-2">
+                        <i class="ri-login-box-line text-lg md:text-xl"></i>
+                        <span class="hidden sm:inline text-sm">Login</span>
+                    </a>
+                @endauth
+            </div>
         </div>
     </div>
 
     <!-- Navbar -->
     <nav class="bg-cyan-300 shadow-lg sticky top-0 z-50">
-        <div class="flex justify-between items-center px-4 md:px-10 py-4 md:py-5">
+        <div class="flex justify-between items-center px-4 md:px-10 py-4 md:py-5 gap-4">
             <!-- Brand Text with Cool Effects -->
             <div>
                 <a href="{{ route('home') }}" id="brand-logo" class="relative inline-block group overflow-hidden">
@@ -102,6 +135,25 @@
                 </a>
             </div>
 
+            <!-- Search Bar -->
+            <form action="{{ route('search') }}" method="GET" class="hidden md:flex items-center flex-1 max-w-md mx-4">
+                <div class="relative w-full">
+                    <input
+                        type="text"
+                        name="qry"
+                        placeholder="Search products..."
+                        class="w-full px-4 py-2 md:py-2.5 rounded-full border-2 border-cyan-400 focus:border-cyan-600 focus:outline-none bg-white/90 backdrop-blur-sm transition-all duration-300 shadow-md hover:shadow-lg focus:shadow-lg"
+                        autocomplete="off"
+                    >
+                    <button
+                        type="submit"
+                        class="absolute right-1 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-cyan-500 to-purple-600 text-white rounded-full p-2 hover:shadow-lg transition-all duration-300 hover:scale-110"
+                    >
+                        <i class="ri-search-line text-lg"></i>
+                    </button>
+                </div>
+            </form>
+
             <!-- Mobile Menu Button -->
             <button id="mobile-menu-button" class="md:hidden flex items-center justify-center p-3 rounded-lg hover:bg-cyan-400 transition-colors z-50 relative">
                 <i class="ri-menu-line text-2xl text-gray-700"></i>
@@ -109,9 +161,9 @@
 
             <!-- Desktop Navigation -->
             <div class="hidden md:flex space-x-1">
-                <a href="{{ route('home') }}" class="text-lg lg:text-xl font-semibold flex items-center space-x-2 p-3 rounded-lg transition-all duration-300 {{ request()->routeIs('home') ? 'text-blue-600' : 'hover:text-blue-500' }}">
+                {{-- <a href="{{ route('home') }}" class="text-lg lg:text-xl font-semibold flex items-center space-x-2 p-3 rounded-lg transition-all duration-300 {{ request()->routeIs('home') ? 'text-blue-600' : 'hover:text-blue-500' }}">
                     <i class="ri-home-2-line"></i> <span>Home</span>
-                </a>
+                </a> --}}
                 @php
                     $categories = App\Models\Category::orderBy('priority')->limit(5)->get();
                 @endphp
@@ -125,6 +177,24 @@
 
         <!-- Mobile Navigation -->
         <div id="mobile-menu" class="md:hidden hidden bg-cyan-400 px-4 pb-4 relative z-40 w-full">
+            <!-- Mobile Search -->
+            <form action="{{ route('search') }}" method="GET" class="mb-4">
+                <div class="relative w-full">
+                    <input
+                        type="text"
+                        name="qry"
+                        placeholder="Search products..."
+                        class="w-full px-4 py-2 rounded-full border-2 border-cyan-500 focus:border-cyan-700 focus:outline-none bg-white transition-all duration-300 shadow-md"
+                        autocomplete="off"
+                    >
+                    <button
+                        type="submit"
+                        class="absolute right-1 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-cyan-500 to-purple-600 text-white rounded-full p-2 hover:scale-110 transition-transform duration-300"
+                    >
+                        <i class="ri-search-line text-lg"></i>
+                    </button>
+                </div>
+            </form>
             <div class="space-y-2 pt-2">
                 <a href="{{ route('home') }}" class="block text-lg font-semibold p-3 rounded-lg transition-all duration-300 text-gray-700 {{ request()->routeIs('home') ? 'text-blue-600 bg-cyan-300' : 'hover:text-blue-500 hover:bg-cyan-300' }}">
                     <i class="ri-home-2-line mr-2"></i>Home

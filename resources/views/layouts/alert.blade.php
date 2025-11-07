@@ -1,5 +1,5 @@
 @if(Session::has('success'))
-<div class="fixed top-4 right-4 bg-white px-6 py-4 rounded-2xl shadow-2xl border border-green-200 z-50 max-w-sm transform transition-all duration-500 ease-out animate-slide-in" id="successAlert">
+<div class="fixed top-4 right-4 bg-white px-6 py-4 rounded-2xl shadow-2xl border border-green-200 z-[9999] max-w-sm transform transition-all duration-500 ease-out animate-slide-in" id="successAlert">
     <div class="flex items-start space-x-4">
         <div class="flex-shrink-0">
             <div class="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center shadow-lg">
@@ -90,7 +90,7 @@
 @endif
 
 @if(Session::has('error'))
-<div class="fixed top-4 right-4 bg-white px-6 py-4 rounded-2xl shadow-2xl border border-red-200 z-50 max-w-sm transform transition-all duration-500 ease-out animate-slide-in" id="errorAlert">
+<div class="fixed top-4 right-4 bg-white px-6 py-4 rounded-2xl shadow-2xl border border-red-200 z-[9999] max-w-sm transform transition-all duration-500 ease-out animate-slide-in" id="errorAlert">
     <div class="flex items-start space-x-4">
         <div class="flex-shrink-0">
             <div class="w-10 h-10 bg-gradient-to-r from-red-500 to-rose-600 rounded-full flex items-center justify-center shadow-lg">

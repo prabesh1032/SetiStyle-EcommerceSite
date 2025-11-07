@@ -144,6 +144,20 @@
                             <x-input-error :messages="$errors->get('email')" class="mt-2" />
                         </div>
 
+                        <!-- Phone -->
+                        <div>
+                            <x-input-label for="phone" :value="__('Phone Number')" />
+                            <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')" placeholder="+977 9812345678" autocomplete="tel" />
+                            <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+                        </div>
+
+                        <!-- Address -->
+                        <div>
+                            <x-input-label for="address" :value="__('Address')" />
+                            <textarea id="address" name="address" class="block mt-1 w-full border-gray-300 focus:border-cyan-500 focus:ring-cyan-500 rounded-lg shadow-sm" rows="3" placeholder="Enter your full address">{{ old('address') }}</textarea>
+                            <x-input-error :messages="$errors->get('address')" class="mt-2" />
+                        </div>
+
                         <!-- Password -->
                         <div>
                             <x-input-label for="password" :value="__('Password')" />

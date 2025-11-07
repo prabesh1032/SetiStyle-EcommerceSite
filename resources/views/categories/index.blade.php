@@ -39,13 +39,14 @@
                            title="Edit">
                             <i class="ri-pencil-line text-lg"></i>
                         </a>
-                        <form action="{{ route('categories.destroy', $category->id) }}" method="POST"
+                        <form action="{{ route('categories.destroy', $category->id) }}" method="POST" style="display:inline;"
                               onsubmit="return confirm('Are you sure you want to delete this category?');">
                             @csrf
                             @method('DELETE')
                             <button type="submit"
                                     class="text-red-600 hover:text-red-900 transition-colors duration-200"
-                                    title="Delete">
+                                    title="Delete"
+                                    style="background:none;border:none;cursor:pointer;">
                                 <i class="ri-delete-bin-line text-lg"></i>
                             </button>
                         </form>

@@ -24,7 +24,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $data=$request->validate([
-            'name'=>'required|alpha',
+            'name'=>'required|string',
             'category_id'=>'required',
             'brand_id'=>'required',
             'price'=>'required|integer',
@@ -37,7 +37,7 @@ class ProductController extends Controller
         $data['photopath']=$photoname;
 
         Product::create($data);
-        return redirect()->route('products.index')->with('success','Product Created Sucessfully');
+        return redirect()->route('products.index')->with('success','Product Created Successfully! ✓');
 
     }
     public function edit($id)
@@ -52,29 +52,30 @@ class ProductController extends Controller
     public function update(Request $request,$id)
     {
         $data=$request->validate([
-            'name'=>'required|alpha',
+            'name'=>'required|string',
             'category_id'=>'required',
             'brand_id'=>'required',
             'price'=>'required|integer',
             'stock'=>'required',
             'description'=>'required',
-            'photopath'=>'required|image',
+            'photopath'=>'nullable|image',
         ]);
         $product= Product::find($id);
         if($request->hasFile('photopath'))
         {
+            //delete old photo first
+            $oldphoto=public_path('images').'/'.$product->photopath;
+            if(file_exists($oldphoto))
+            {
+                unlink($oldphoto);
+            }
+            //then upload new photo
             $photoname=time().'.'.$request->photopath->extension();
             $request->photopath->move(public_path('images'),$photoname);
             $data['photopath']=$photoname;
-            //delete old photo
-            $oldphoto=public_path('images').'/'.$product->photopath;
-        if(file_exists($oldphoto))
-        {
-            unlink($oldphoto);
         }
-     }
         Product::find($id)->update($data);
-        return redirect()->route('products.index')->with('success','Product Updated aSucessfully');
+        return redirect()->route('products.index')->with('success','Product Updated Successfully! ✓');
 
     }
     public function destroy($id)

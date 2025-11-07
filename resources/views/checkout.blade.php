@@ -120,9 +120,8 @@
                                       placeholder="Enter your complete address with landmarks"
                                       rows="3"
                                       class="w-full border border-gray-200 rounded-xl px-4 py-3 bg-gray-50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 resize-none"
-                                      required></textarea>
+                                      required>{{ auth()->user()->address }}</textarea>
                         </div>
-
                         <!-- Phone Number -->
                         <div class="space-y-2">
                             <label class="block text-sm font-medium text-gray-700">
@@ -132,20 +131,15 @@
                                    name="phone"
                                    placeholder="Enter your phone number"
                                    class="w-full border border-gray-200 rounded-xl px-4 py-3 bg-gray-50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300"
+                                   value="{{ auth()->user()->phone }}"
                                    required>
                         </div>
 
-                        <!-- Delivery Instructions -->
-                        <div class="bg-blue-50 rounded-xl p-4 border border-blue-200">
-                            <h4 class="text-sm font-semibold text-blue-800 mb-2">
-                                <i class="ri-information-line mr-2"></i>Delivery Instructions
-                            </h4>
-                            <ul class="text-xs text-blue-700 space-y-1">
-                                <li>• Please provide accurate address and phone number</li>
-                                <li>• Delivery within 2-3 business days</li>
-                                <li>• Contact number is required for delivery coordination</li>
-                            </ul>
-                        </div>
+                        <!-- Edit Profile Button -->
+                        <a href="{{ route('profile.edit') }}" class="w-full px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-300 font-semibold flex items-center justify-center space-x-2">
+                            <i class="ri-edit-line"></i>
+                            <span>Edit Profile</span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -404,6 +398,20 @@
                     }
                 });
             });
+
+            // Check if we're returning from profile edit page
+            if (sessionStorage.getItem('profileUpdated') === 'true') {
+                sessionStorage.removeItem('profileUpdated');
+                location.reload();
+            }
+        });
+
+        // Listen for page show event to auto-refresh when returning from profile
+        window.addEventListener('pageshow', function(event) {
+            if (sessionStorage.getItem('profileUpdated') === 'true') {
+                sessionStorage.removeItem('profileUpdated');
+                location.reload();
+            }
         });
     </script>
 @endsection

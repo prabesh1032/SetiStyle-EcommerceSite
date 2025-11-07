@@ -4,6 +4,7 @@
 @section('content')
 <form action="{{route('brand.update',$brand->id)}}" class="mt-5" method="post">
     @csrf
+    @method('PUT')
 
     <div class="mb-5">
         <input type="text" placeholder="Enter Brand Name" class="p-3 w-full rounded-lg"
@@ -16,7 +17,7 @@
     </div>
     <div class="flex justify-center">
         <button type="submit" class="bg-blue-600 text-white py-3 px-5 rounded-md
-         front bold">Update Brand</button>
+         font-bold">Update Brand</button>
          <a href="{{route('brand.index')}}" class="bg-lime-500 text-white py-3 px-5
          rounded-md font-bold ml-3">Cancel</a>
     </div>
