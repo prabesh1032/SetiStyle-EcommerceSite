@@ -20,8 +20,87 @@
     Our Products
 </h1>
 
-<!-- Product Grid Section -->
-<div class="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8 md:px-20 sm:px-10 px-5 py-12">
+<!-- FILTERS SECTION - LEFT SIDEBAR -->
+<div class="bg-gradient-to-b from-gray-50 to-white py-8 px-5">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex gap-8">
+
+            <!-- LEFT SIDEBAR - FILTERS -->
+            <div class="w-72 flex-shrink-0">
+                <div class="bg-white rounded-2xl shadow-lg p-6 sticky top-24 border border-gray-100">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-bold text-gray-800 flex items-center">
+                            <i class="ri-filter-line mr-2 text-cyan-500 text-lg"></i>
+                            Filters
+                        </h2>
+                        <a href="{{ route('home') }}" class="text-gray-400 hover:text-cyan-600 transition text-lg" title="Reset Filters">
+                            <i class="ri-refresh-line"></i>
+                        </a>
+                    </div>
+
+                    <form method="GET" action="{{ route('home') }}" class="space-y-5">
+
+                        <!-- PRICE SORT FILTER -->
+                        <div class="pb-5 border-b border-gray-200">
+                            <label class="text-sm font-semibold text-gray-700 mb-3 flex items-center">
+                                <i class="ri-price-tag-3-line mr-2 text-green-500 text-base"></i>
+                                Sort by Price
+                            </label>
+                            <select name="sort_price" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200 transition bg-white text-gray-700 font-medium text-sm">
+                                <option value="">Default</option>
+                                <option value="high_to_low" {{ request('sort_price') === 'high_to_low' ? 'selected' : '' }}>Highest to Lowest</option>
+                                <option value="low_to_high" {{ request('sort_price') === 'low_to_high' ? 'selected' : '' }}>Lowest to Highest</option>
+                            </select>
+                        </div>
+
+                        <!-- CATEGORY FILTER -->
+                        <div class="pb-5 border-b border-gray-200">
+                            <label class="text-sm font-semibold text-gray-700 mb-3 flex items-center">
+                                <i class="ri-menu-3-line mr-2 text-purple-500 text-base"></i>
+                                Category
+                            </label>
+                            <select name="category_id" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition bg-white text-gray-700 font-medium text-sm">
+                                <option value="">All Categories</option>
+                                @php
+                                    $categories = App\Models\Category::orderBy('priority')->get();
+                                @endphp
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- BRAND FILTER -->
+                        <div class="pb-5">
+                            <label class="text-sm font-semibold text-gray-700 mb-3 flex items-center">
+                                <i class="ri-building-line mr-2 text-rose-500 text-base"></i>
+                                Brand
+                            </label>
+                            <select name="brand_id" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-rose-500 focus:ring-2 focus:ring-rose-200 transition bg-white text-gray-700 font-medium text-sm">
+                                <option value="">All Brands</option>
+                                @php
+                                    $brands = App\Models\Product::distinct()->pluck('brand_id');
+                                    $brands = App\Models\Brand::whereIn('id', $brands)->orderBy('name')->get();
+                                @endphp
+                                @foreach($brands as $brand)
+                                    <option value="{{ $brand->id }}" {{ request('brand_id') == $brand->id ? 'selected' : '' }}>{{ $brand->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- APPLY BUTTON -->
+                        <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-purple-600 text-white py-3 px-4 rounded-lg font-semibold shadow-lg hover:from-cyan-600 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2 mt-6">
+                            <i class="ri-search-line"></i>
+                            <span>Apply Filters</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- RIGHT SIDE - PRODUCT GRID -->
+            <div class="flex-1">
+                <!-- Product Grid -->
+                <div class="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8">
     @forelse($products as $product)
     <div class="group relative bg-white rounded-2xl shadow-xl overflow-hidden transform transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl border border-gray-100">
         <!-- Image Container with Overlay -->
@@ -85,7 +164,7 @@
         <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
     </div>
     @empty
-    <div class="col-span-4 text-center py-12">
+    <div class="col-span-3 text-center py-12">
         <div class="max-w-md mx-auto">
             <i class="ri-shopping-bag-line text-6xl text-gray-400 mb-4"></i>
             <h3 class="text-xl font-semibold text-gray-600 mb-2">No products available</h3>
@@ -93,8 +172,11 @@
         </div>
     </div>
     @endforelse
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
 
 <!-- Featured Categories Section -->
 <div class="bg-gradient-to-r from-gray-50 to-gray-100 py-20">

@@ -10,8 +10,56 @@ class PagesController extends Controller
 {
     public function home()
     {
-        $products=Product::latest()->get();
-        return view("welcome",compact('products'));
+        $sort_price = request('sort_price', '');
+        $category_id = request('category_id', '');
+        $brand_id = request('brand_id', '');
+
+        // Base query
+        $query = Product::query();
+
+        // Filter by category
+        if ($category_id) {
+            $query->where('category_id', $category_id);
+        }
+
+        // Filter by brand
+        if ($brand_id) {
+            $query->where('brand_id', $brand_id);
+        }
+
+        // Get products
+        $products = $query->latest()->get();
+
+        // Apply bubble sort for price
+        if ($sort_price) {
+            $productsArray = $products->toArray();
+            $n = count($productsArray);
+
+            // Bubble sort algorithm
+            for ($i = 0; $i < $n; $i++) {
+                for ($j = 0; $j < $n - $i - 1; $j++) {
+                    if ($sort_price === 'high_to_low') {
+                        if ($productsArray[$j]['price'] < $productsArray[$j + 1]['price']) {
+                            $temp = $productsArray[$j];
+                            $productsArray[$j] = $productsArray[$j + 1];
+                            $productsArray[$j + 1] = $temp;
+                        }
+                    } else {
+                        if ($productsArray[$j]['price'] > $productsArray[$j + 1]['price']) {
+                            $temp = $productsArray[$j];
+                            $productsArray[$j] = $productsArray[$j + 1];
+                            $productsArray[$j + 1] = $temp;
+                        }
+                    }
+                }
+            }
+            // Convert back to collection of Product models
+            $products = collect($productsArray)->map(function($product) {
+                return is_array($product) ? (object) $product : $product;
+            });
+        }
+
+        return view("welcome", compact('products'));
     }
     public function about()
     {

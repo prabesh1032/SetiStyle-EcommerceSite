@@ -352,7 +352,6 @@
                     <div class="benefit-text">Safe and secure payment processing</div>
                 </div>
             </div>
-
             <!-- Call to Action -->
             <div class="cta-section">
                 <div class="cta-title">Ready to Start Shopping?</div>
