@@ -28,7 +28,8 @@
                 <div class="relative">
                     <img src="{{ asset('images/' . $product->photopath) }}"
                          alt="{{ $product->name }}"
-                         class="w-full h-96 md:h-[500px] object-cover rounded-2xl shadow-lg group-hover:scale-[1.02] transition-transform duration-700">
+                         id="productImage"
+                         class="w-full h-96 md:h-[500px] object-cover rounded-2xl shadow-lg group-hover:scale-[1.02] transition-transform duration-700 cursor-pointer">
 
                     <!-- Image Overlay with Stock Status -->
                     <div class="absolute top-6 right-6">
@@ -47,7 +48,7 @@
 
                     <!-- Zoom Icon -->
                     <div class="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <div class="bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg cursor-pointer hover:bg-white transition-colors">
+                        <div id="zoomButton" class="bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg cursor-pointer hover:bg-white transition-colors">
                             <i class="ri-zoom-in-line text-xl text-gray-700"></i>
                         </div>
                     </div>
@@ -315,7 +316,168 @@
     </div>
 </div>
 
+<!-- Image Zoom Modal -->
+<div id="zoomModal" class="fixed inset-0 bg-black bg-opacity-90 hidden items-center justify-center p-4" style="z-index: 9999;">
+    <div class="relative max-w-7xl w-full h-full flex items-center justify-center">
+        <!-- Close Button (X) - Below Navbar -->
+        <button id="closeZoom" class="absolute bg-white text-gray-800 p-3 rounded-full hover:bg-gray-200 transition-all shadow-lg" style="top: 80px; right: 20px; z-index: 10000;">
+            <i class="ri-close-line text-3xl font-bold"></i>
+        </button>
+        <!-- Zoom Controls -->
+        <div class="absolute flex items-center gap-3 bg-white/10 backdrop-blur-sm px-4 py-3 rounded-full" style="bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 10000;">
+            <button id="zoomOut" class="text-white hover:text-blue-400 transition-colors p-2">
+                <i class="ri-zoom-out-line text-xl"></i>
+            </button>
+            <span id="zoomLevel" class="text-white font-semibold min-w-[60px] text-center">100%</span>
+            <button id="zoomIn" class="text-white hover:text-blue-400 transition-colors p-2">
+                <i class="ri-zoom-in-line text-xl"></i>
+            </button>
+            <button id="resetZoom" class="text-white hover:text-blue-400 transition-colors p-2 border-l border-white/30 pl-3">
+                <i class="ri-refresh-line text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Zoomed Image Container -->
+        <div id="zoomContainer" class="overflow-auto max-h-full max-w-full cursor-move">
+            <img id="zoomedImage"
+                 src="{{ asset('images/' . $product->photopath) }}"
+                 alt="{{ $product->name }}"
+                 class="transition-transform duration-300"
+                 style="transform: scale(1); max-height: 70vh;">
+        </div>
+    </div>
+</div>
+
 <script>
+    // Image Zoom Functionality
+    const zoomModal = document.getElementById('zoomModal');
+    const zoomButton = document.getElementById('zoomButton');
+    const productImage = document.getElementById('productImage');
+    const closeZoom = document.getElementById('closeZoom');
+    const zoomedImage = document.getElementById('zoomedImage');
+    const zoomContainer = document.getElementById('zoomContainer');
+    const zoomInBtn = document.getElementById('zoomIn');
+    const zoomOutBtn = document.getElementById('zoomOut');
+    const resetZoomBtn = document.getElementById('resetZoom');
+    const zoomLevelText = document.getElementById('zoomLevel');
+
+    let currentZoom = 1;
+    let isDragging = false;
+    let startX, startY, scrollLeft, scrollTop;
+
+    // Open zoom modal
+    function openZoomModal() {
+        zoomModal.classList.remove('hidden');
+        zoomModal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+        currentZoom = 1;
+        updateZoomLevel();
+    }
+
+    // Close zoom modal
+    function closeZoomModal() {
+        zoomModal.classList.add('hidden');
+        zoomModal.classList.remove('flex');
+        document.body.style.overflow = 'auto';
+        currentZoom = 1;
+        updateZoomLevel();
+    }
+
+    // Update zoom level
+    function updateZoomLevel() {
+        zoomedImage.style.transform = `scale(${currentZoom})`;
+        zoomLevelText.textContent = `${Math.round(currentZoom * 100)}%`;
+    }
+
+    // Zoom in
+    function zoomIn() {
+        if (currentZoom < 3) {
+            currentZoom += 0.25;
+            updateZoomLevel();
+        }
+    }
+
+    // Zoom out
+    function zoomOut() {
+        if (currentZoom > 0.5) {
+            currentZoom -= 0.25;
+            updateZoomLevel();
+        }
+    }
+
+    // Reset zoom
+    function resetZoom() {
+        currentZoom = 1;
+        updateZoomLevel();
+        zoomContainer.scrollLeft = 0;
+        zoomContainer.scrollTop = 0;
+    }
+
+    // Event listeners
+    zoomButton.addEventListener('click', openZoomModal);
+    productImage.addEventListener('click', openZoomModal);
+    closeZoom.addEventListener('click', closeZoomModal);
+    zoomInBtn.addEventListener('click', zoomIn);
+    zoomOutBtn.addEventListener('click', zoomOut);
+    resetZoomBtn.addEventListener('click', resetZoom);
+
+    // Close on outside click
+    zoomModal.addEventListener('click', function(e) {
+        if (e.target === zoomModal) {
+            closeZoomModal();
+        }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !zoomModal.classList.contains('hidden')) {
+            closeZoomModal();
+        }
+    });
+
+    // Drag to pan functionality
+    zoomContainer.addEventListener('mousedown', function(e) {
+        if (currentZoom > 1) {
+            isDragging = true;
+            zoomContainer.style.cursor = 'grabbing';
+            startX = e.pageX - zoomContainer.offsetLeft;
+            startY = e.pageY - zoomContainer.offsetTop;
+            scrollLeft = zoomContainer.scrollLeft;
+            scrollTop = zoomContainer.scrollTop;
+        }
+    });
+
+    zoomContainer.addEventListener('mouseleave', function() {
+        isDragging = false;
+        zoomContainer.style.cursor = 'move';
+    });
+
+    zoomContainer.addEventListener('mouseup', function() {
+        isDragging = false;
+        zoomContainer.style.cursor = 'move';
+    });
+
+    zoomContainer.addEventListener('mousemove', function(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x = e.pageX - zoomContainer.offsetLeft;
+        const y = e.pageY - zoomContainer.offsetTop;
+        const walkX = (x - startX) * 2;
+        const walkY = (y - startY) * 2;
+        zoomContainer.scrollLeft = scrollLeft - walkX;
+        zoomContainer.scrollTop = scrollTop - walkY;
+    });
+
+    // Mouse wheel zoom
+    zoomContainer.addEventListener('wheel', function(e) {
+        e.preventDefault();
+        if (e.deltaY < 0) {
+            zoomIn();
+        } else {
+            zoomOut();
+        }
+    });
+
     // Quantity Control Functions
     function increaseqty() {
         const quantityInput = document.getElementById('quantity');

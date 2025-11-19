@@ -3,13 +3,34 @@
 @section('content')
 <h1 class="text-gray-900 text-5xl text-center font-extrabold mt-10 mb-8">{{ $category->name }} Products</h1>
 
+<div class="md:px-20 sm:px-10 px-5">
+    <!-- Price Filter -->
+    <div class="mb-6">
+        <form method="GET" action="{{ route('categoryproduct', $category->id) }}" class="inline-flex items-center gap-3 bg-gradient-to-r from-purple-50 to-blue-50 px-4 py-2 rounded-xl border border-purple-200 shadow-sm">
+            <span class="text-sm font-semibold text-gray-700">
+                <i class="ri-filter-3-line mr-1"></i>Sort:
+            </span>
+            <select name="sort_price" id="sort_price" 
+                    class="px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white">
+                <option value="">Default</option>
+                <option value="high_to_low" {{ request('sort_price') == 'high_to_low' ? 'selected' : '' }}>High to Low</option>
+                <option value="low_to_high" {{ request('sort_price') == 'low_to_high' ? 'selected' : '' }}>Low to High</option>
+            </select>
+            <button type="submit" 
+                    class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-1.5 rounded-lg text-sm font-medium hover:from-purple-700 hover:to-blue-700 transition-all transform hover:scale-105 shadow-md">
+                Apply
+            </button>
+        </form>
+    </div>
+</div>
+
 <!-- Product Grid -->
-<div class="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8 md:px-20 sm:px-10 px-5 py-12">
+<div class="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8 md:px-20 sm:px-10 px-5 pb-12">
     @foreach($products as $product)
     <div class="group relative bg-white rounded-2xl shadow-xl overflow-hidden transform transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl border border-gray-100">
         <!-- Image Container with Overlay -->
         <div class="relative overflow-hidden">
-            <img src="{{ asset('images/' . $product->photopath) }}" alt="{{ $product->name }}" class="h-48 w-full object-cover transition-all duration-700 group-hover:scale-110">
+            <img src="{{ asset('images/' . $product->photopath) }}" alt="{{ $product->name }}" class="h-72 w-full object-cover transition-all duration-700 group-hover:scale-110">
 
             <!-- Overlay gradient -->
             <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300"></div>

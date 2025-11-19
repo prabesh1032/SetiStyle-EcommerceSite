@@ -73,6 +73,37 @@ class PagesController extends Controller
     {
         $category=Category::find($id);
         $products=Product::where('category_id',$id)->get();
+
+        // Apply price sorting if requested
+        if(request('sort_price')) {
+            $productsArray = $products->toArray();
+            $n = count($productsArray);
+
+            // Bubble sort implementation
+            for($i = 0; $i < $n - 1; $i++) {
+                for($j = 0; $j < $n - $i - 1; $j++) {
+                    if(request('sort_price') == 'high_to_low') {
+                        if($productsArray[$j]['price'] < $productsArray[$j + 1]['price']) {
+                            $temp = $productsArray[$j];
+                            $productsArray[$j] = $productsArray[$j + 1];
+                            $productsArray[$j + 1] = $temp;
+                        }
+                    } else if(request('sort_price') == 'low_to_high') {
+                        if($productsArray[$j]['price'] > $productsArray[$j + 1]['price']) {
+                            $temp = $productsArray[$j];
+                            $productsArray[$j] = $productsArray[$j + 1];
+                            $productsArray[$j + 1] = $temp;
+                        }
+                    }
+                }
+            }
+
+            // Convert back to objects
+            $products = collect($productsArray)->map(function($item) {
+                return (object) $item;
+            });
+        }
+
         return view('categoryproduct',compact('products','category'));
     }
     public function viewproduct($id)
