@@ -331,7 +331,7 @@
             <span id="zoomLevel" class="text-white font-semibold min-w-[60px] text-center">100%</span>
             <button id="zoomIn" class="text-white hover:text-blue-400 transition-colors p-2">
                 <i class="ri-zoom-in-line text-xl"></i>
-            </button>
+            </button>x  
             <button id="resetZoom" class="text-white hover:text-blue-400 transition-colors p-2 border-l border-white/30 pl-3">
                 <i class="ri-refresh-line text-xl"></i>
             </button>

@@ -35,7 +35,7 @@
                     </div>
 
                     <!-- Product Image -->
-                    <div class="p-6">
+                    <div class="p-7">
                         <div class="relative group">
                             <img src="{{ asset('images/'.$cart->product->photopath) }}"
                                  alt="{{ $cart->product->name }}"
